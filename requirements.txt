@@ -1,0 +1,6 @@
+Django>=3.0,<4.0
+psycopg2-binary>=2.8
+django-enumfield>=2.0.2
+Pillow>=7
+django-bootstrap4>=2.2.0
+gunicorn>=20.0.0
