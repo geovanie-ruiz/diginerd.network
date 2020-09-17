@@ -6,3 +6,4 @@ COPY requirements.txt /code/
 COPY entrypoint.sh /entrypoint.sh
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+COPY . /code/

@@ -1,0 +1,46 @@
+###########
+# BUILDER #
+###########
+
+FROM python:3 as builder
+
+WORKDIR /code
+
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+COPY requirements.txt /code/
+COPY entrypoint.sh /entrypoint.sh
+COPY . /code/
+
+RUN pip install --upgrade pip
+
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /code/wheels -r requirements.txt
+
+#########
+# FINAL #
+#########
+
+FROM python:3
+
+RUN mkdir -p /home/app
+RUN groupadd --gid 10001 app && useradd --gid 10001 --uid 10001 --home-dir /code app
+
+RUN mkdir /code
+RUN mkdir /code/staticfiles
+RUN mkdir /code/mediafiles
+WORKDIR /code
+
+COPY --from=builder /code/wheels /wheels
+COPY --from=builder /code/requirements.txt .
+RUN pip install --no-cache /wheels/*
+
+COPY ./entrypoint.sh /entrypoint.sh
+
+COPY . /code/
+
+RUN chown -R app:app /code
+
+USER app
+
+ENTRYPOINT [ "/entrypoint.sh" ]
