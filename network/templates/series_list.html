@@ -1,0 +1,13 @@
+<ul>
+    {% for series in object_list %}
+    <li>
+        <a href="{% url 'series_list' series.pk %}">
+            {{ series.name }}
+        </a>
+    </li>
+    <hr />
+
+    {% empty %}
+    <li>No series yet.</li>
+    {% endfor %}
+</ul>

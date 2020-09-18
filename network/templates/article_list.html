@@ -1,0 +1,13 @@
+<ul>
+    {% for article in object_list %}
+    <li>
+        <a href="{% url 'article' article.slug %}">
+            {{ article.title }}
+        </a>
+    </li>
+    <hr />
+
+    {% empty %}
+    <li>No articles yet.</li>
+    {% endfor %}
+</ul>

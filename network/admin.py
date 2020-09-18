@@ -1,11 +1,14 @@
+from datetime import datetime
+
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 
-from .models import Article, ArticleType, Comment, Status
+from .models import Article, ArticleType, Comment, Series, Status
 
+admin.site.register(Series)
 
 def make_published(ModelAdmin, request, queryset):
-    queryset.update(status=Status.PUBLISHED)
+    queryset.update(status=Status.PUBLISHED, published_on=datetime.now())
 
 def approve_comment(ModelAdmin, request, queryset):
     queryset.update(approved_comment=True)

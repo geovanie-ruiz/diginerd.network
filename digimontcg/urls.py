@@ -18,12 +18,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from network.views import story_index
 
 urlpatterns = [
     path('', include('network.urls')),
     path('cards/', include('cards.urls')),
-    path('network/', include('network.urls')),
-    path('story/', story_index, name='story'),
     path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

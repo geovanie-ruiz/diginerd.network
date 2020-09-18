@@ -14,24 +14,35 @@ class Status(enum.Enum):
     }
 
 class ArticleType(enum.Enum):
-    ARTICLE = 0
-    CARD = 1
-    STORY = 2
+    NEWS = 0
+    ARTICLE = 1
+    CARD = 2
+    STORY = 3
 
     __labels__ = {
+        NEWS: 'News',
         ARTICLE: 'Article',
         CARD: 'Card',
         STORY: 'Story'
     }
 
+class Series(models.Model):
+    """ Serves as catogries for articles, and a means of classifying stories """
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Article(models.Model):
     title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     article_type = enum.EnumField(ArticleType, default=ArticleType.ARTICLE)
+    series = models.ForeignKey(Series, on_delete=models.SET_NULL, related_name='series_articles', null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='network_articles', null=True, blank=True)
-    updated_on = models.DateTimeField(auto_now=True)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    published_on = models.DateTimeField(null=True, blank=True)
     status = enum.EnumField(Status, default=Status.DRAFT)
     open_for_comment = models.BooleanField(default=True)
 
