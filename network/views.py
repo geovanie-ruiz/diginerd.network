@@ -46,7 +46,7 @@ class SeriesListView(ListView):
             )).filter(article_count__gt=0)
         return qs.order_by('-article_count')
 
-class StoryDetailView(DeleteView):
+class StoryDetailView(DetailView):
     model = Article
     template_name = 'story_view.html'
 

@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}Diginerd - Index{% endblock %}
+
+{% block content %}
 <ul>
     {% for series in object_list %}
     <li>
@@ -11,3 +16,4 @@
     <li>No series yet.</li>
     {% endfor %}
 </ul>
+{% endblock %}

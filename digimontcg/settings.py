@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # third party
+    'bootstrap4',
 
-    #own
+    # own
     'cards.apps.CardsConfig',
     'network.apps.NetworkConfig',
 ]
@@ -61,7 +62,9 @@ ROOT_URLCONF = 'digimontcg.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            Path(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,8 +131,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/staticfiles/'
-MEDIA_URL = '/mediafiles/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
-STATIC_ROOT = Path(BASE_DIR, 'staticfiles')
-MEDIA_ROOT = Path(BASE_DIR, 'mediafiles')
+STATIC_ROOT = Path(BASE_DIR, 'static')
+MEDIA_ROOT = Path(BASE_DIR, 'media')
+
+STATICFILES_DIRS = [
+    Path(BASE_DIR, 'staticfiles')
+]

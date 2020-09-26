@@ -7,3 +7,5 @@ TO-DO
 */__pycache__
 */*/__pycache__
 media/
+bin/
+staticfiles/
