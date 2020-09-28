@@ -23,7 +23,7 @@ class ArticleType(enum.Enum):
         NEWS: 'News',
         ARTICLE: 'Article',
         CARD: 'Card',
-        STORY: 'Story'
+        STORY: 'Digifiction'
     }
 
 class Series(models.Model):
@@ -72,3 +72,18 @@ class Comment(models.Model):
     def approve(self):
         self.approved_comment = True
         self.save()    
+
+class Shop(models.Model):
+    """
+        Needs hours, digimon tournament times
+        Connect to googlemaps?
+    """
+    name = models.CharField(max_length=255, unique=True)
+    address1 = models.CharField(max_length=255)
+    address2 = models.CharField(max_length=255)
+    city = models.CharField(max_length=128)
+    state = models.CharField(max_length=2) #needs a state list
+    zipcode = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f'{self.name}, ({self.city}, {self.state})'

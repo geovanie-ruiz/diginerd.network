@@ -3,9 +3,10 @@ from datetime import datetime
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 
-from .models import Article, ArticleType, Comment, Series, Status
+from .models import Article, ArticleType, Comment, Series, Shop, Status
 
 admin.site.register(Series)
+admin.site.register(Shop)
 
 def make_published(ModelAdmin, request, queryset):
     queryset.update(status=Status.PUBLISHED, published_on=datetime.now())

@@ -8,35 +8,190 @@
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
     {% bootstrap_messages %}
+    <script src="https://kit.fontawesome.com/0ed8c87a10.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
         <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'img/header-logo.png' %}" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'network' %}">Network</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'cards' %}">Cards</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Gameplay
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Getting Started</a>
+                        <a class="dropdown-item" href="#">Rules</a>
+                        <a class="dropdown-item" href="#">Colors</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Decks</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Cards
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'cards' %}">Database</a>
+                        <a class="dropdown-item" href="#">Trial Sets</a>
+                        <a class="dropdown-item" href="#">Booster Sets</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Rulings</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'series' %}">Series</a>
+                    <a class="nav-link" href="{% url 'story' %}">Digifiction</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-map-marker fa-fw"></i>LGS
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'lgs' %}">Find Supporting LGS Near You</a>
+                        <a class="dropdown-item" href="{% url 'new_lgs' %}">Submit Supporting LGS</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'story' %}">Story</a>
+                    <a class="btn btn-primary btn-small navbar-btn" href="#">
+                        <i class="fa fa-user-circle-o fa-fw"></i> Logout
+                    </a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-primary btn-small navbar-btn" href="#">
+                        <i class="fa fa-user-circle-o fa-fw"></i> Log-in
+                    </a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
 
+    <!-- Content -->
     <div class="container-fluid">
         {% block content %}
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         {% endblock %}
     </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+
+                <!-- Secondary Logo -->
+                <div class="col-md mt-md-0 mt-3">
+                    <img src="{% static 'img/sitename.png' %}" />
+                    <p class="text-justify">
+                        The DigiNerd Network is a fansite dedicated to Digimon with a focus on the new <a
+                            href="https://digimoncard.com/global/">Digimon TCG</a>. The site is a tool for
+                        browsing the released cards, discussion, news, and fanfiction in the form of
+                        DigiFiction. The primary goal of the fiction is to tell interesting and engaging
+                        stories revolving around the card game and divergent from the narrative of the
+                        Digimon animated series. We hope you enjoy the site along the path to <strong>Digivolving
+                            Your Game</strong>!
+                    </p>
+                </div>
+
+                <hr class="clearfix w-100 d-md-none pb-3">
+
+                <!-- Contact & Legal -->
+                <div class="col-sm mt-sm-0 mt-3">
+                    <h5 class="text-uppercase">The Destined</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{% url 'contact' %}">Contact Us</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'privacy' %}">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'terms' %}">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Sitemap -->
+                <div class="col-sm mt-sm-0 mt-3">
+                    <h5 class="text-uppercase">The Network</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{% url 'network' %}">Articles</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'gameplay' %}">Gameplay</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'cards' %}">Cards</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'story' %}">Digifiction</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'lgs' %}">LGS Locator</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Other platforms -->
+            <div class="row pt-5 justify-content-center">
+                <div class="col align-self-center">
+                    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+                        <button type="button" class="btn"><a href="https://discord.com/invite/yXsuBJs"><i
+                                    class="fab fa-discord fa-2x"></i></a></button>
+                        <button type="button" class="btn"><a href="https://www.facebook.com/groups/2551868255082951"><i
+                                    class="fab fa-facebook fa-2x"></i></a></button>
+                        <button type="button" class="btn"><a href="https://www.reddit.com/r/DigimonCardGame2020/"><i
+                                    class="fab fa-reddit fa-2x"></i></a></button>
+                        <button type="button" class="btn"><a href="https://twitter.com/digimon_tcg_EN"><i
+                                    class="fab fa-twitter fa-2x"></i></a></button>
+                        <button type="button" class="btn"><a href="https://www.youtube.com/c/digibros/featured"><i
+                                    class="fab fa-youtube fa-2x"></i></a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Copyright Section-->
+    <section class="copyright py-4 text-center text-white-50">
+        <div class="container">
+            <small>
+                This website is independent of Toei-Animation and Bandai. This is an unofficial fan site and is not
+                supported or endorsed by the official Digimon copyright holder.
+                <br />
+                All images and text from the Digimon Card Game, and all images depicting Digimon, are copyright Akiyoshi
+                Hongo, Toei Animation, and Bandai, respectively.
+                <br />
+                All other content © 2020 The DigiNerd Network. Digivolve Your Game!
+            </small>
+        </div>
+    </section>
+
 </body>

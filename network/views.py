@@ -1,7 +1,9 @@
 from django.db.models import Count, Q
 from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic.edit import FormView
 
-from network.models import Article, ArticleType, Series, Status
+from network.forms.forms import ShopForm
+from network.models import Article, ArticleType, Series, Shop, Status
 
 
 class IndexView(TemplateView):
@@ -57,3 +59,32 @@ class ArticleDetailView(DetailView):
 class SeriesDetailView(DetailView):
     model = Series
     template_name = 'series_view.html'
+
+class ShopListView(ListView):
+    model = Shop
+    template_name = 'lgs.html'
+
+class ShopDetailView(DetailView):
+    model = Shop
+    template_name = 'lgs_view.html'
+
+class ShopAddView(FormView):
+    form_class = ShopForm
+    template_name = 'lgs_add.html'
+    success_url = '/lgs/'
+
+    def form_valid(self, form):
+        form.add_lgs()
+        return super().form_valid(form)
+
+class ContactView(TemplateView):
+    template_name = 'contact.html'
+
+class PrivacyView(TemplateView):
+    template_name = 'privacy.html'
+
+class TermsView(TemplateView):
+    template_name = 'terms.html'
+
+class GameplayView(TemplateView):
+    template_name = 'gameplay.html'
