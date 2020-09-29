@@ -8,17 +8,4 @@ https://www.diginerd.net
 
 ## TODO
 
-### Apps
-- Cards views
-- Network (index) views
-  - create views for articles
-  - create views for: 
-    - youtube (affiliate)
-    - official digimon site
-    - digimoncard.dev (confirm) 
-    - facebook group
-- story app views
-- discussion app components for Card, Network, and Story (IN PROGRESS)
-
-### Frontend
-- start Network design
+https://trello.com/b/oIGaRzWU/diginerdnetwork
