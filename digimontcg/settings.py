@@ -32,19 +32,21 @@ ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
     # third party
     'bootstrap4',
 
     # own
     'cards.apps.CardsConfig',
     'network.apps.NetworkConfig',
+    'accounts.apps.AccountsConfig',
+
+    # built-in
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
@@ -112,6 +114,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_REDIRECT_URL = 'profile'
 
 
 # Internationalization

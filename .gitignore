@@ -8,4 +8,4 @@ TO-DO
 */*/__pycache__
 media/
 bin/
-staticfiles/
+staticfiles/admin/

@@ -88,3 +88,50 @@ class TermsView(TemplateView):
 
 class GameplayView(TemplateView):
     template_name = 'gameplay.html'
+
+class RulesView(TemplateView):
+    template_name = 'rules.html'
+
+class ColorsView(TemplateView):
+    """ Article 'colors' """
+    template_name = 'colors.html'
+
+class DecksListView(ListView):
+    """ Series 'decks' """
+    template_name = 'decks.html'
+
+class DeckView(DetailView):
+    model = Article
+    template_name = 'decks_view.html'
+
+class TrialSetListView(ListView):
+    """ Series 'trials' """
+    template_name = 'trial_sets.html'
+
+class TrialSetDetailView(DetailView):
+    model = Article
+    template_name = 'trial_set_view.html'
+
+class BoosterSetListView(ListView):
+    """ Series 'boosters' """
+    template_name = 'booster_sets.html'
+
+class BoosterSetDetailView(DetailView):
+    model = Article
+    template_name = 'booster_set_view.html'
+
+class RulingsListView(ListView):
+    """ Series 'rulings' """
+    template_name = 'rulings.html'
+
+class RulingsDetailView(DetailView):
+    model = Article
+    template_name = 'rulings_view.html'
+
+class ErrataListView(ListView):
+    """ Series 'errata' """
+    template_name = 'errata.html'
+
+class ErrataDetailView(DetailView):
+    model = Article
+    template_name = 'errata_view.html'

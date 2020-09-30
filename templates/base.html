@@ -39,10 +39,10 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'gameplay' %}">Getting Started</a>
-                        <a class="dropdown-item" href="#">Rules</a>
-                        <a class="dropdown-item" href="#">Colors</a>
+                        <a class="dropdown-item" href="{% url 'rules' %}">Rules</a>
+                        <a class="dropdown-item" href="{% url 'colors' %}">Colors</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Decks</a>
+                        <a class="dropdown-item" href="{% url 'decks' %}">Decks</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -52,10 +52,11 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'cards' %}">Database</a>
-                        <a class="dropdown-item" href="#">Trial Sets</a>
-                        <a class="dropdown-item" href="#">Booster Sets</a>
+                        <a class="dropdown-item" href="{% url 'trials' %}">Trial Sets</a>
+                        <a class="dropdown-item" href="{% url 'boosters' %}">Booster Sets</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Rulings</a>
+                        <a class="dropdown-item" href="{% url 'rulings' %}">Rulings</a>
+                        <a class="dropdown-item" href="{% url 'errata' %}">Errata</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -75,13 +76,13 @@
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="btn btn-primary btn-small navbar-btn" href="#">
+                    <a class="btn btn-primary btn-small navbar-btn" href="{% url 'logout' %}">
                         <i class="fa fa-user-circle-o fa-fw"></i> Logout
                     </a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="btn btn-primary btn-small navbar-btn" href="#">
+                    <a class="btn btn-primary btn-small navbar-btn" href="{% url 'login' %}">
                         <i class="fa fa-user-circle-o fa-fw"></i> Log-in
                     </a>
                 </li>
@@ -91,19 +92,8 @@
     </nav>
 
     <!-- Content -->
-    <div class="container-fluid"></div>
-    {% block content %}
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    {% endblock %}
+    <div class="container-fluid">
+        {% block content %}{% endblock %}
     </div>
 
     <!-- Footer -->
@@ -116,8 +106,8 @@
                     <img src="{% static 'img/sitename.png' %}" />
                     <p class="text-justify px-1">
                         The DigiNerd Network is a fansite dedicated to Digimon with a focus on the new <a
-                            href="https://digimoncard.com/global/">Digimon TCG</a>. The site is a tool for
-                        browsing the released cards, discussion, news, and fanfiction in the form of
+                            href="https://digimoncard.com/global/" target="_blank">Digimon TCG</a>. The site is a tool
+                        for browsing the released cards, discussion, news, and fanfiction in the form of
                         DigiFiction. The primary goal of the fiction is to tell interesting and engaging
                         stories revolving around the card game and divergent from the narrative of the
                         Digimon animated series. We hope you enjoy the site along the path to <strong>Digivolving
@@ -170,17 +160,17 @@
             <div class="row pt-5 justify-content-center">
                 <div class="col align-self-center">
                     <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-link"><a href="https://discord.com/invite/yXsuBJs"><i
-                                    class="fab fa-discord fa-2x"></i></a></button>
+                        <button type="button" class="btn btn-link"><a href="https://discord.com/invite/yXsuBJs"
+                                target="_blank"><i class="fab fa-discord fa-2x"></i></a></button>
                         <button type="button" class="btn btn-link"><a
-                                href="https://www.facebook.com/groups/2551868255082951"><i
+                                href="https://www.facebook.com/groups/2551868255082951" target="_blank"><i
                                     class="fab fa-facebook fa-2x"></i></a></button>
                         <button type="button" class="btn btn-link"><a
-                                href="https://www.reddit.com/r/DigimonCardGame2020/"><i
+                                href="https://www.reddit.com/r/DigimonCardGame2020/" target="_blank"><i
                                     class="fab fa-reddit fa-2x"></i></a></button>
-                        <button type="button" class="btn btn-link"><a href="https://twitter.com/digimon_tcg_EN"><i
-                                    class="fab fa-twitter fa-2x"></i></a></button>
-                        <button type="button" class="btn btn-link disabled"><a href="#!"><i
+                        <button type="button" class="btn btn-link"><a href="https://twitter.com/digimon_tcg_EN"
+                                target="_blank"><i class="fab fa-twitter fa-2x"></i></a></button>
+                        <button type="button" class="btn btn-link disabled"><a href="#!" target="_blank"><i
                                     class="fab fa-youtube fa-2x"></i></a></button>
                     </div>
                 </div>

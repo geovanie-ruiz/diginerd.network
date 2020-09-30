@@ -80,6 +80,7 @@ class Card(Article):
     flavor_type = models.CharField(max_length=255, null=True, blank=True)
     flavor_attribute = models.CharField(max_length=255, null=True, blank=True)
     rarity = enum.EnumField(CardRarity)
+    card_of_the_day = models.DateField(unique=True, null=True, blank=True)
 
     class Meta:
         ordering = ['number']
