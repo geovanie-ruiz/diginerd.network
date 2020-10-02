@@ -21,7 +21,7 @@
 
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary" id="mainNav">
         <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'img/header-logo.png' %}" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,6 +73,9 @@
                     </div>
                 </li>
             </ul>
+            <span class="navbar-text px-3">
+                {% if user.is_authenticated %} Logged in as {{user}} {% endif %}
+            </span>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                 <li class="nav-item">

@@ -1,5 +1,76 @@
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Sign up">
-</form>
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+{% block title %}Diginerd - Registration{% endblock %}
+
+{% block content %}
+
+<!-- Registration Section -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin mt-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Register</h5>
+
+                    <small>Please provide the following required information.</small>
+                    <hr class="my-2">
+
+                    {% for field, error in form.errors.items %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error | striptags }}
+                    </div>
+                    {% endfor %}
+
+                    <form role="form" class="form-register" method="post" action="{% url 'register' %}">
+                        {% csrf_token %}
+                        <div class="form-label-group py-2">
+                            <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="30"
+                                name="{{ form.username.html_name }}" type="text" placeholder="Username" required
+                                autofocus />
+                        </div>
+
+                        <div class="form-label-group py-2">
+                            <input class="form-control" id="{{ form.email.id_for_label }}" maxlength="30"
+                                name="{{ form.email.html_name }}" type="text" placeholder="Email Address" required
+                                autofocus />
+                        </div>
+
+                        <div class="form-label-group py-2">
+                            <input class="form-control" id="{{ form.password1.id_for_label }}" maxlength="30"
+                                name="{{ form.password1.html_name }}" type="password" placeholder="Password" required />
+                        </div>
+
+                        <div class="form-label-group py-2">
+                            <input class="form-control" id="{{ form.password2.id_for_label }}" maxlength="30"
+                                name="{{ form.password2.html_name }}" type="password" placeholder="Confirm Password"
+                                required />
+                        </div>
+
+                        <div class="form-check py-2">
+                            <input type="checkbox" class="form-check-input"
+                                id="{{ form.policy_agreement.id_for_label }}"
+                                name="{{ form.policy_agreement.html_name }}" required>
+                            <label class="form-check-label" for="{{ form.policy_agreement.html_name }}">I agree
+                                to the <a href="{% url 'privacy' %}">Privacy Policy</a> and <a
+                                    href="{% url 'terms' %}">ToS</a>.
+                            </label>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit"
+                            value="register">Sign
+                            Up</button>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-1 mb-5">
+                <small>Already have an account? <a href="{% url 'login' %}">Log In</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

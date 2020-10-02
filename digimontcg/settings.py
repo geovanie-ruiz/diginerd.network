@@ -115,7 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = 'profile'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
 
 
 # Internationalization
@@ -144,3 +145,13 @@ MEDIA_ROOT = Path(BASE_DIR, 'media')
 STATICFILES_DIRS = [
     Path(BASE_DIR, 'staticfiles')
 ]
+
+# Twilio SendGrid
+# https://www.twilio.com/blog/using-twilio-sendgrid-send-emails-python-django
+
+DEFAULT_FROM_EMAIL = 'geovanie.ruiz@gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
