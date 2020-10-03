@@ -6,11 +6,6 @@
     $('.navbar-collapse').collapse('hide');
   });
 
-  // Clickable table rows
-  $('.table-row').click(function () {
-    window.document.location = $(this).data("href");
-  });
-
   // Activate scrollspy to add active class to navbar items on scroll
   $('body').scrollspy({
     target: '#mainNav',
@@ -33,5 +28,11 @@
   navbarCollapse();
   // Collapse the navbar when page is scrolled
   $(window).scroll(navbarCollapse);
+
+  $(document).ready(function () {  
+    $(".close").click(function () {  
+        $("#myAlert").alert("close");  
+    });  
+  }); 
 
 })(jQuery); // End of use strict

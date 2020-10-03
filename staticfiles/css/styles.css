@@ -136,6 +136,10 @@ a {
   a:hover {
     color: #ab4500;
     text-decoration: underline; }
+  a.disabled {
+    color: #6c757d;
+    pointer-events: none;
+  }
 
 a:not([href]) {
   color: inherit;
@@ -7274,6 +7278,8 @@ h3 {
         color: #fff; }
       #mainNav .navbar-nav li.nav-item a.nav-link.active {
         color: #f76400; }
+      #mainNav .navbar-nav li.nav-item a.nav-link.disabled {
+        color: #6c757d; }
   #mainNav .navbar-toggler {
     font-size: 80%;
     padding: 0.8rem; }
@@ -7442,3 +7448,8 @@ form .row:first-child .floating-label-form-group {
 
 .btn-social {
   margin-bottom: 0.5rem; }
+
+.banner-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb; }
