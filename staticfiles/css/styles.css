@@ -399,6 +399,10 @@ mark,
   max-width: 100%;
   height: auto; }
 
+.img-float {
+  float: left; 
+  margin-right: 15px; }
+
 .figure {
   display: inline-block; }
 
@@ -3397,8 +3401,7 @@ input[type="button"].btn-block {
 .card-img,
 .card-img-top,
 .card-img-bottom {
-  flex-shrink: 0;
-  width: 100%; }
+  flex-shrink: 0; }
 
 .card-img,
 .card-img-top {
