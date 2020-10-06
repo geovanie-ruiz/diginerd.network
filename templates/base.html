@@ -7,6 +7,7 @@
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
     {% bootstrap_messages %}
+    {% get_media_prefix as MEDIA_PREFIX %}
     <title>{% block title %}Diginerd - Base{% endblock %}</title>
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
@@ -25,8 +26,10 @@
 <body>
     <!-- WIP Notice -->
     <div class="banner-info text-center">
-            <small><i class="fas fa-info-circle"></i> This site is a work in progress. Some features are not yet available. Please <a href="{% url 'contact' %}">Contact Us</a> to report issues, suggest a feature, or request more information on when a feature will be implemented.</small><br />
-            <small class="text-muted">The Admin</small>
+        <small><i class="fas fa-info-circle"></i> This site is a work in progress. Some features are not yet available.
+            Please <a href="{% url 'contact' %}">Contact Us</a> to report issues, suggest a feature, or request more
+            information on when a feature will be implemented.</small><br />
+        <small class="text-muted">The Admin</small>
     </div>
 
     <!-- Navigation -->
@@ -51,7 +54,7 @@
                         <a class="dropdown-item" href="{% url 'rules' %}">Rules</a>
                         <a class="dropdown-item" href="{% url 'colors' %}">Colors</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'decks' %}">Decks</a>
+                        <a class="dropdown-item disabled" href="#!">Decks</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -64,12 +67,12 @@
                         <a class="dropdown-item" href="{% url 'trials' %}">Trial Sets</a>
                         <a class="dropdown-item" href="{% url 'boosters' %}">Booster Sets</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item disabled" href="{% url 'rulings' %}">Rulings</a>
-                        <a class="dropdown-item disabled" href="{% url 'errata' %}">Errata</a>
+                        <a class="dropdown-item disabled" href="#!">Rulings</a>
+                        <a class="dropdown-item disabled" href="#!">Errata</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="{% url 'story' %}">Digifiction</a>
+                    <a class="nav-link disabled" href="#!">Digifiction</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle disabled" href="#" id="navbarDropdown" role="button"
@@ -77,8 +80,8 @@
                         <i class="fa fa-map-marker fa-fw"></i>LGS
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'lgs' %}">Find Supporting LGS Near You</a>
-                        <a class="dropdown-item" href="{% url 'new_lgs' %}">Submit Supporting LGS</a>
+                        <a class="dropdown-item" href="#!">Find Supporting LGS Near You</a>
+                        <a class="dropdown-item" href="#!">Submit Supporting LGS</a>
                     </div>
                 </li>
             </ul>
@@ -103,106 +106,119 @@
         </div>
     </nav>
 
-    <!-- Content -->
-    <div class="container-fluid">
-        {% block content %}{% endblock %}
-    </div>
+    <div class="flex-wrapper">
+        <div class="container-fluid">
+            <!-- Content -->
+            {% block content %}{% endblock %}
+        </div>
 
-    <!-- Footer -->
-    <footer class="footer text-center">
-        <div class="container">
-            <div class="row mx-auto">
+        <div class="container-fluid">
+            <!-- Footer -->
+            <footer class="footer text-center">
+                <div class="container">
+                    <div class="row mx-auto">
 
-                <!-- Secondary Logo -->
-                <div class="col-md-6 mt-md-0 mt-3">
-                    <img src="{% static 'img/sitename.png' %}" />
-                    <p class="text-justify px-1">
-                        The DigiNerd Network is a fansite dedicated to Digimon with a focus on the new <a
-                            href="https://digimoncard.com/global/" target="_blank">Digimon TCG</a>. The site is a tool
-                        for browsing the released cards, discussion, news, and fanfiction in the form of
-                        DigiFiction. The primary goal of the fiction is to tell interesting and engaging
-                        stories revolving around the card game and divergent from the narrative of the
-                        Digimon animated series. We hope you enjoy the site along the path to <strong>Digivolving
-                            Your Game</strong>!
-                    </p>
-                </div>
+                        <!-- Secondary Logo -->
+                        <div class="col-md-6 mt-md-0 mt-3">
+                            <img src="{% static 'img/sitename.png' %}" />
+                            <p class="text-justify px-1">
+                                The DigiNerd Network is a fansite dedicated to Digimon with a focus on the new <a
+                                    href="https://digimoncard.com/global/" target="_blank">Digimon TCG</a>. The site is
+                                a tool
+                                for browsing the released cards, discussion, news, and fanfiction in the form of
+                                DigiFiction. The primary goal of the fiction is to tell interesting and engaging
+                                stories revolving around the card game and divergent from the narrative of the
+                                Digimon animated series. We hope you enjoy the site along the path to
+                                <strong>Digivolving
+                                    Your Game</strong>!
+                            </p>
+                        </div>
 
-                <hr class="clearfix w-100 d-md-none pb-3">
+                        <hr class="clearfix w-100 d-md-none pb-3">
 
-                <!-- Contact & Legal -->
-                <div class="col col-md-3 mt-sm-0 mt-3">
-                    <h5 class="text-uppercase">The Destined</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="{% url 'contact' %}">Contact Us</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'privacy' %}">Privacy Policy</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'terms' %}">Terms of Use</a>
-                        </li>
-                    </ul>
-                </div>
+                        <!-- Contact & Legal -->
+                        <div class="col col-md-3 mt-sm-0 mt-3">
+                            <h5 class="text-uppercase">The Destined</h5>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{% url 'contact' %}">Contact Us</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'privacy' %}">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'terms' %}">Terms of Use</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'roadmap' %}">Site Roadmap</a>
+                                </li>
+                                <li>
+                                    <a href="#!" class="disabled">Developer Tools</a>
+                                </li>
+                            </ul>
+                        </div>
 
-                <!-- Sitemap -->
-                <div class="col col-md-3 mt-sm-0 mt-3">
-                    <h5 class="text-uppercase">The Network</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="{% url 'network' %}">Articles</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'gameplay' %}">Gameplay</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'cards' %}">Cards</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'story' %}" class="disabled">Digifiction</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'lgs' %}" class="disabled">LGS Locator</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                        <!-- Sitemap -->
+                        <div class="col col-md-3 mt-sm-0 mt-3">
+                            <h5 class="text-uppercase">The Network</h5>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{% url 'network' %}">Articles</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'gameplay' %}">Gameplay</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'cards' %}">Cards</a>
+                                </li>
+                                <li>
+                                    <a href="#!" class="disabled">Digifiction</a>
+                                </li>
+                                <li>
+                                    <a href="#!" class="disabled">LGS Locator</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <!-- Other platforms -->
-            <div class="row pt-5 justify-content-center">
-                <div class="col align-self-center">
-                    <div class="btn-group btn-group-lg" role="group" aria-label="Other platforms">
-                        <button type="button" class="btn btn-link"><a href="https://discord.com/invite/yXsuBJs"
-                                target="_blank"><i class="fab fa-discord fa-2x"></i></a></button>
-                        <button type="button" class="btn btn-link"><a
-                                href="https://www.facebook.com/groups/2551868255082951" target="_blank"><i
-                                    class="fab fa-facebook fa-2x"></i></a></button>
-                        <button type="button" class="btn btn-link"><a
-                                href="https://www.reddit.com/r/DigimonCardGame2020/" target="_blank"><i
-                                    class="fab fa-reddit fa-2x"></i></a></button>
-                        <button type="button" class="btn btn-link"><a href="https://twitter.com/digimon_tcg_EN"
-                                target="_blank"><i class="fab fa-twitter fa-2x"></i></a></button>
-                        <button type="button" class="btn btn-link disabled"><a href="#!" target="_blank"><i
-                                    class="fab fa-youtube fa-2x"></i></a></button>
+                    <!-- Other platforms -->
+                    <div class="row pt-5 justify-content-center">
+                        <div class="col align-self-center">
+                            <div class="btn-group btn-group-lg" role="group" aria-label="Other platforms">
+                                <button type="button" class="btn btn-link"><a href="https://discord.com/invite/yXsuBJs"
+                                        target="_blank"><i class="fab fa-discord fa-2x"></i></a></button>
+                                <button type="button" class="btn btn-link"><a
+                                        href="https://www.facebook.com/groups/2551868255082951" target="_blank"><i
+                                            class="fab fa-facebook fa-2x"></i></a></button>
+                                <button type="button" class="btn btn-link"><a
+                                        href="https://www.reddit.com/r/DigimonCardGame2020/" target="_blank"><i
+                                            class="fab fa-reddit fa-2x"></i></a></button>
+                                <button type="button" class="btn btn-link"><a href="https://twitter.com/digimon_tcg_EN"
+                                        target="_blank"><i class="fab fa-twitter fa-2x"></i></a></button>
+                                <button type="button" class="btn btn-link disabled"><a href="#!" target="_blank"><i
+                                            class="fab fa-youtube fa-2x"></i></a></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </footer>
+            </footer>
 
-    <!-- Copyright Section-->
-    <section class="copyright px-1 py-4 text-center text-white-50">
-        <div class="container">
-            <small>
-                This website is independent of Toei-Animation and Bandai. This is an unofficial fan site and is not
-                supported or endorsed by the official Digimon copyright holder.
-                <br />
-                All images and text from the Digimon Card Game, and all images depicting Digimon, are copyright Akiyoshi
-                Hongo, Toei Animation, and Bandai, respectively.
-                <br />
-                All other content © 2020 The DigiNerd Network. Digivolve Your Game!
-            </small>
+            <!-- Copyright Section-->
+            <section class="copyright px-1 py-4 text-center text-white-50">
+                <div class="container">
+                    <small>
+                        This website is independent of Toei-Animation and Bandai. This is an unofficial fan site and is
+                        not
+                        supported or endorsed by the official Digimon copyright holder.
+                        <br />
+                        All images and text from the Digimon Card Game, and all images depicting Digimon, are copyright
+                        Akiyoshi
+                        Hongo, Toei Animation, and Bandai, respectively.
+                        <br />
+                        All other content © 2020 The DigiNerd Network. Digivolve Your Game!
+                    </small>
+                </div>
+            </section>
         </div>
-    </section>
-
+    </div>
 </body>

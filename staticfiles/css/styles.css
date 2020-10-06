@@ -7314,8 +7314,6 @@ h3 {
     line-height: 2.75rem; }
   .masthead .masthead-subheading {
     font-size: 1.25rem; }
-  .masthead .masthead-avatar {
-    width: 15rem; }
 
 @media (min-width: 992px) {
   .masthead {
@@ -7453,3 +7451,37 @@ form .row:first-child .floating-label-form-group {
   color: #0c5460;
   background-color: #d1ecf1;
   border-color: #bee5eb; }
+
+.flex-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between; }
+
+.article-title {
+  margin-right: -4rem;
+  margin-top: 2rem;
+  float: right; 
+  padding: 1rem; 
+  border-radius: 0.5rem; }
+  .article-title .article-title-heading {
+    font-size: 2.75rem;
+    line-height: 2.75rem; }
+  .article-title .article-title-subheading {
+    font-size: 1.25rem; }
+
+.container .article {
+  margin-top: -18rem; }
+
+.hero-img {
+  object-fit: cover;
+  object-position: center;
+  max-height: 368px;
+}
+
+.card-thumbnail {
+  object-fit: cover; 
+  object-position: center;
+  width: 128px;
+  max-height: 128px;
+  margin-bottom: 1rem; }
