@@ -55,4 +55,7 @@ urlpatterns = [
     path('privacy/', views.PrivacyView.as_view(), name='privacy'),
     path('terms/', views.TermsView.as_view(), name='terms'),
     path('roadmap/', views.RoadmapView.as_view(), name='roadmap'),
+
+    # Comments lazy-loading
+    path('comments/', views.lazy_load_comments, name='lazy_load_comments'),
 ]

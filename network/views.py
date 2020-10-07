@@ -1,21 +1,51 @@
-from django.utils import timezone
-
 import timeago
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.template import loader
+from django.utils import timezone
+from django.utils.html import strip_tags
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import FormView
 
 from network.forms.forms import ShopForm
-from network.models import Article, ArticleType, Series, Shop, Status
+from network.models import Article, ArticleType, Comment, Series, Shop, Status
 
 
-def format_articles(articles):
+def format_article_summaries(articles):
     for article in articles:
         article.age = timeago.format(article.published_on, timezone.now())
         if len(article.content) > 180:
-            article.summary = f'{article.content[:177]}...'
+            article.summary = strip_tags(f'{article.content[:177]}...')
         else:
-            article.summary = article.content
+            article.summary = strip_tags(article.content)
+
+
+def lazy_load_comments(request):
+    page = request.POST.get('page')
+    comments = Comment.objects.all()
+    # use Django's pagination
+    # https://docs.djangoproject.com/en/dev/topics/pagination/
+    results_per_page = 5
+    paginator = Paginator(comments, results_per_page)
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        comments = paginator.page(2)
+    except EmptyPage:
+        comments = paginator.page(paginator.num_pages)
+    # build a html comments list with the paginated comments
+    comments_html = loader.render_to_string(
+        'comments.html',
+        {'comments': comments}
+    )
+    # package output data and return it as a JSON object
+    output_data = {
+        'comments_html': comments_html,
+        'has_next': comments.has_next()
+    }
+    return JsonResponse(output_data)
 
 
 class IndexView(TemplateView):
@@ -27,7 +57,7 @@ class IndexView(TemplateView):
         latest_three_articles = Article.objects.order_by('-published_on').filter(
             article_type__in=[ArticleType.NEWS, ArticleType.ARTICLE], status=Status.PUBLISHED)[:3]
 
-        format_articles(latest_three_articles)
+        format_article_summaries(latest_three_articles)
         context['big_article'] = latest_three_articles[0]
         context['small_articles'] = latest_three_articles[1:]
 
@@ -57,7 +87,7 @@ class ArticlesByArticlesCategoryView(DetailView):
         ).get_context_data(**kwargs)
         top_ten_articles = Article.objects.order_by('-published_on').filter(
             series__id=self.object.pk)[:10]
-        format_articles(top_ten_articles)
+        format_article_summaries(top_ten_articles)
         context['articles'] = top_ten_articles
         return context
 
@@ -65,6 +95,12 @@ class ArticlesByArticlesCategoryView(DetailView):
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'article_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        comment_total = Comment.objects.filter(post=self.object).count()
+        context['comment_total'] = comment_total
+        return context
 
 
 class ContactView(TemplateView):

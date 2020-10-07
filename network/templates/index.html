@@ -43,7 +43,7 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col text-left">
-                                    <small>{{ big_article.username|default:"An Author" }}</small>
+                                    <small>{{ big_article.author|default:"An Author" }}</small>
                                 </div>
                                 <div class="col text-right">
                                     <small>{{ big_article.age|default:"An age ago" }}</small>
@@ -75,7 +75,7 @@
                                 <div class="card-footer">
                                     <div class="row">
                                         <div class="col text-left">
-                                            <small>{{ article.username|default:"An Author" }}</small>
+                                            <small>{{ article.author|default:"An Author" }}</small>
                                         </div>
                                         <div class="col text-right">
                                             <small>{{ article.age|default:"An age ago" }}</small>

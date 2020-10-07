@@ -1,16 +1,15 @@
-{% extends "base.html" %}
-
-{% block content %}
-
-{% block article %}
+{% block head %}
+<script type="text/javascript">
+    window.CSRF_TOKEN = "{{ csrf_token }}";
+</script>
 {% endblock %}
 
 <section class="page-section bg-primary">
-    <div class="container" id="comments">
+    <div class="container" id="commentSection">
         <div class="text-center w-90 mx-auto">
             <div class="d-flex justify-content-between comment-header">
                 <h1 class="page-section-heading text-secondary mb-3 d-inline-block">
-                    Comments [1]
+                    Comments [{{ comment_total|default:"-1" }}]
                 </h1>
                 <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseForm"
                     aria-expanded="false" aria-controls="collapseForm">
@@ -22,6 +21,7 @@
                 <!-- Comment form -->
                 <div class="collapse" id="collapseForm">
                     <form method="post">
+                        {% csrf_token %}
                         <div class="form-group">
                             <div class="h5 text-left text-white m-1">Posting reply as {{ user }}</div>
                             <textarea class="form-control" rows="5" id="summernote" name="editordata"></textarea>
@@ -33,29 +33,11 @@
                         </div>
                     </form>
                 </div>
-
-                <!-- Comments List -->
-                <div class="card comment">
-                    <div class="card-header text-left d-flex">
-                        <img class="profile-picture" src="https://placehold.it/80x80/163a63" />
-                        <div class="author">
-                            <div>
-                                <strong class="h4">Username</strong><br />
-                                <small>Posted 3 days ago</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text lead">
-                            Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-                            blandit. Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-                            varius blandit.
-                        </p>
-                    </div>
-                </div>
             </div>
+            <!-- Comments List -->
+            <div id="comments"></div>
+            <a type="button" class="btn btn-secondary" id="loadComments" href="javascript:void(0);"
+                data-page="1">Load Comments</a>
         </div>
     </div>
 </section>
-
-{% endblock %}

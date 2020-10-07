@@ -1,8 +1,8 @@
-{% extends "comment_view.html" %}
+{% extends "base.html" %}
 
 {% block title %}Diginerd - {{ object.title }}{% endblock %}
 
-{% block article %}
+{% block content %}
 
 <header class="masthead bg-primary text-white text-center">
     <div class="container expander">
@@ -33,7 +33,7 @@
                                 <span>
                                     Posted {{ object.published_on|date:"d M, Y" }} by {{ object.author }}
                                 </span>
-                                <a href="#comments">Jump to Comments</a>
+                                <a href="#commentSection">Jump to Comments</a>
                             </div>
                             <hr />
                             {{ object.content|safe }}
@@ -44,5 +44,7 @@
         </div>
     </div>
 </section>
+
+{% include 'comment_view.html' %}
 
 {% endblock %}
