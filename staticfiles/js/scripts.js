@@ -33,6 +33,21 @@
     $(".close").click(function () {  
         $("#myAlert").alert("close");  
     });  
-  }); 
+  });
+
+  // Summernote input form
+  $(document).ready(function() {
+    $('#summernote').summernote({
+      toolbar: [
+        ['misc', ['undo', 'redo']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['list', ['ul', 'ol']],
+      ],
+      placeholder: 'What are your thoughts?',
+      tabsize: 2,
+      height: 300,
+      disableDragAndDrop: true
+    });
+  });
 
 })(jQuery); // End of use strict

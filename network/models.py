@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 from django_enumfield import enum
-from tinymce.models import HTMLField
 
 
 class Status(enum.Enum):
@@ -48,7 +47,7 @@ class Article(models.Model):
     series = models.ForeignKey(Series, on_delete=models.SET_NULL, related_name='series_articles', null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='network_articles', null=True, blank=True)
     hero_img = models.ImageField(upload_to='art/hero/articles', null=True, blank=True)
-    content = HTMLField()
+    content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     published_on = models.DateTimeField(null=True, blank=True)
@@ -68,7 +67,7 @@ class Article(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    text = HTMLField()
+    text = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     approved_comment = models.BooleanField(default=False)
 

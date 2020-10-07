@@ -1,10 +1,12 @@
-{% extends "base.html" %}
+{% extends "comment_view.html" %}
 
 {% block title %}Diginerd - {{ object.title }}{% endblock %}
 
-{% block content %}
+{% block article %}
 
 <header class="masthead bg-primary text-white text-center">
+    <div class="container expander">
+    </div>
 </header>
 
 <section class="page-section">
@@ -14,19 +16,27 @@
                 <div class="col col-12">
                     <div class="card article shadow-lg">
                         <img {% if object.hero_img %} src="{{ MEDIA_PREFIX }}{{ object.hero_img }}" {% else %}
-                            src="https://placehold.it/1140x768/163a63" {% endif %} class="card-img img-responsive hero-img" />
+                            src="https://placehold.it/1140x768/163a63" {% endif %}
+                            class="card-img img-responsive hero-img" />
                         <div class="card-img-overlay">
                             <div class="article-title bg-primary">
                                 <h1 class="article-title-heading text-white text-right px-2 pb-1">
-                                    {{ object.title }}
+                                    {{ object.title|default:"Article Title" }}
                                 </h1>
                                 <h3 class="article-title-subheading text-white text-right px-2">
-                                    Logline for the article
+                                    {{ object.logline|default:"Logline for the article" }}
                                 </h3>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <p class="card-text text-justify">{{ object.content }}</p>
+                        <div class="card-body-thin">
+                            <div class="d-flex justify-content-between">
+                                <span>
+                                    Posted {{ object.published_on|date:"d M, Y" }} by {{ object.author }}
+                                </span>
+                                <a href="#comments">Jump to Comments</a>
+                            </div>
+                            <hr />
+                            {{ object.content|safe }}
                         </div>
                     </div>
                 </div>
@@ -35,35 +45,4 @@
     </div>
 </section>
 
-<section class="page-section bg-primary">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="page-section-heading text-secondary mb-0 d-inline-block">Comments</h2>
-        </div>
-    </div>
-</section>
-
-<!--
-
-<header class="masthead bg-primary text-white text-center">
-    <div class="container d-flex align-items-center flex-column">
-        <h1 class="masthead-heading mb-0">{{ object.title }}</h1>
-    </div>
-</header>
-
-<section class="page-section" id="latest">
-    <div class="container">
-        <div class="row">
-            <div class="col col-xl-12">
-                <img {% if object.hero_img %} src="{{ MEDIA_PREFIX }}{{ object.hero_img }}" {% else %}
-                    src="https://placehold.it/1140x768/163a63" {% endif %} class="img-responsive" />
-            </div>
-            <div class="col col-xl-12">
-                {{ object.content }}
-            </div>
-        </div>
-    </div>
-</section>
-
--->
 {% endblock %}

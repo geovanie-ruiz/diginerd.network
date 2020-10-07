@@ -34,7 +34,7 @@ ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
 INSTALLED_APPS = [
     # third party
     'bootstrap4',
-    'tinymce',
+    'django_summernote',
 
     # own
     'cards.apps.CardsConfig',
@@ -81,6 +81,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'digimontcg.wsgi.application'
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 # Database
@@ -156,3 +158,58 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+
+# Summernote
+#
+
+SUMMERNOTE_THEME = 'bs4'
+
+SUMMERNOTE_CONFIG = {
+    # Using SummernoteWidget - iframe mode, default
+    'iframe': True,
+
+    # You can put custom Summernote settings
+    'summernote': {
+        # As an example, using Summernote Air-mode
+        'airMode': False,
+
+        # Change editor size
+        'width': '100%',
+        'height': '480',
+
+        # Toolbar customization
+        # https://summernote.org/deep-dive/#custom-toolbar-popover
+        'toolbar': [
+            ['misc', ['undo', 'redo']],
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+
+        'styleTags': [
+            'p', 
+            {
+                'tag': 'p',
+                'title': 'Dropcase',
+                'style': 'p',
+                'className': 'dropcase',
+                'value': 'p'
+            },
+            'blockquote',
+            'h1', 
+            'h2', 
+            'h3', 
+            'h4', 
+            'h5', 
+            'h6'
+        ],
+    },
+
+    # Require users to be authenticated for uploading attachments.
+    'attachment_require_authentication': True,
+}

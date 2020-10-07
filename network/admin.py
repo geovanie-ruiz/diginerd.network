@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
+from django_summernote.admin import SummernoteModelAdmin
 
 from .models import Article, ArticleType, Comment, Series, Shop, Status
 
@@ -30,7 +31,8 @@ class ArticleTypeFilter(SimpleListFilter):
             return queryset.filter(article_type=self.value())
 
 @admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
+class ArticleAdmin(SummernoteModelAdmin):
+    summernote_fields = '__all__'
     list_display = ('title', 'slug', 'status', 'created_on')
     list_filter = ('status', ArticleTypeFilter,)
     search_fields = ['title', 'content']

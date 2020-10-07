@@ -18,7 +18,7 @@
                         <small>Posted by {{ article.author|default:"An Author" }}
                             {{ article.age|default:"An age ago" }}</small>
                     </div>
-                    <p class="text-left mb-1">{{ article.summary|default:"A summary"}}</p>
+                    <div class="text-left mb-1">{{ article.summary|default:"A summary"}}</div>
                 </a>
                 {% empty %}
                 <!-- No articles in category -->

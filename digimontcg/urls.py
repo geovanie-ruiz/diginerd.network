@@ -23,8 +23,8 @@ urlpatterns = [
     path('cards/', include('cards.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('summernote/', include('django_summernote.urls')),
     path('', include('network.urls')),
-    path('tinymce/', include('tinymce.urls')),
 ]
 
 if settings.DEBUG:
