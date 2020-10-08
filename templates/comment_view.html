@@ -1,15 +1,9 @@
-{% block head %}
-<script type="text/javascript">
-    window.CSRF_TOKEN = "{{ csrf_token }}";
-</script>
-{% endblock %}
-
 <section class="page-section bg-primary">
     <div class="container" id="commentSection">
         <div class="text-center w-90 mx-auto">
             <div class="d-flex justify-content-between comment-header">
                 <h1 class="page-section-heading text-secondary mb-3 d-inline-block">
-                    Comments [{{ comment_total|default:"0" }}]
+                    Comments [{{ total|default:"0" }}]
                 </h1>
                 <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseForm"
                     aria-expanded="false" aria-controls="collapseForm">
@@ -46,9 +40,9 @@
             </div>
             <!-- Comments List -->
             <div id="comments">{% include 'comments.html' %}</div>
-            {% if comment_total > comment_page_length %}
-            <a type="button" class="btn btn-secondary" id="loadComments" href="javascript:void(0);"
-                data-article="{{ object.slug }}" data-page="2">Load Comments</a>
+            {% if total > page_length %}
+            <a type="button" class="btn btn-secondary" id="loadContent" href="javascript:void(0);"
+                data-container="{{ object.pk }}" data-page="2" data-type=1>Load Comments</a>
             {% endif %}
         </div>
     </div>

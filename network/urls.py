@@ -59,7 +59,8 @@ urlpatterns = [
     path('terms/', views.TermsView.as_view(), name='terms'),
     path('roadmap/', views.RoadmapView.as_view(), name='roadmap'),
 
-    # Comments
-    path('comments/', views.lazy_load_comments, name='lazy_load_comments'),
+    # POST paths
+    path('load-articles/', views.lazy_load_articles, name='lazy_load_articles'),
+    path('load-comments/', views.lazy_load_comments, name='lazy_load_comments'),
     path('new-comment/', views.store_comment, name='new_comment'),
 ]

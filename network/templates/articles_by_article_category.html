@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block head %}
+<script type="text/javascript">
+    window.CSRF_TOKEN = "{{ csrf_token }}";
+</script>
+{% endblock %}
 {% block title %}Diginerd - {{ object.name }}{% endblock %}
 {% block content %}
 
@@ -6,23 +11,14 @@
 <section class="page-section" id="categories">
     <div class="container text-center">
         <h2 class="page-section-heading text-center text-secondary mb-4 d-inline-block">{{ object.name }}</h2>
-        <!-- Article list -->
         <div class="container">
-            <div class="list-group shadow-lg p-0 rounded">
-                {% for article in articles %}
-                <a href="{% url 'article' article.slug %}"
-                    class="list-group-item list-group-item-action flex-column align-items-start">
-                    <img class="img-float img-responsive" src="https://placehold.it/128/163a63" alt="" />
-                    <div class="d-flex justify-content-between">
-                        <h5 class="mb-1">{{ article.title }}</h5>
-                        <small>Posted by {{ article.author|default:"An Author" }}
-                            {{ article.age|default:"An age ago" }}</small>
-                    </div>
-                    <div class="text-left mb-1">{{ article.summary|default:"A summary"}}</div>
-                </a>
-                {% empty %}
-                <!-- No articles in category -->
-                {% endfor %}
+            <div class="list-group shadow-lg p-0 rounded" id="articles">
+                <!-- Articles List -->
+                {% include 'articles.html' %}
+                {% if total > page_length %}
+                <a type="button" class="btn btn-secondary" id="loadContent" href="javascript:void(0);"
+                    data-container="{{ object.pk }}" data-page="2" data-type=0>Load Articles</a>
+                {% endif %}
             </div>
         </div>
     </div>

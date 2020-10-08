@@ -52,17 +52,31 @@
     document.execCommand('insertText', false, bufferText);
   });
 
-  // Lazy loading comments
-  $('#loadComments').on('click', function () {
+  // Lazy loading articles and contents
+  $('#loadContent').on('click', function () {
     var link = $(this);
     var page = link.data('page');
-    var article = link.data('article');
+    var container = link.data('container');
+    var content;
+
+    switch (link.data('type')) {
+      case 0:
+        content = 'articles';
+        break;
+      case 1:
+        content = 'comments';
+        break;
+      case 2:
+        content = 'cards';
+        break;
+    }
+    
     $.ajax({
       type: 'post',
-      url: '/comments/',
+      url: ''.concat('/load-', content, '/'),
       data: {
         'page': page,
-        'article': article,
+        'container': container,
         'csrfmiddlewaretoken': window.CSRF_TOKEN
       },
       success: function (data) {
@@ -71,7 +85,7 @@
         } else {
           link.hide();
         }
-        $('#comments').append(data.comments_html);
+        $(''.concat('#', content)).append(data.contents_html);
       },
       error: function (xhr, status, error) { }
     });

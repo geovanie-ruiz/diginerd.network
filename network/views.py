@@ -14,7 +14,7 @@ from network.forms.forms import ShopForm
 from network.models import Article, ArticleType, Comment, Series, Shop, Status
 
 
-COMMENT_PAGE_LENGTH = 5
+PAGE_LENGTH = 5
 
 
 def format_article_summaries(articles):
@@ -45,30 +45,54 @@ def store_comment(request):
         return HttpResponseRedirect('{}#commentSection'.format(url))
 
 
-def lazy_load_comments(request):
-    slug = request.POST.get('article')
-    article = Article.objects.get(slug=slug)
+def lazy_load_articles(request):
+    pk = request.POST.get('container')
     page = request.POST.get('page')
+
+    article_list = Article.objects.filter(
+        series__id=pk
+    ).order_by('-published_on')
+
+    paginator = Paginator(article_list, PAGE_LENGTH)
+
+    try:
+        articles = paginator.page(page)
+    except PageNotAnInteger:
+        articles = paginator.page(2)
+    except EmptyPage:
+        articles = paginator.page(paginator.num_pages)
+
+    format_article_summaries(articles)
+    output_data = {
+        'contents_html': loader.render_to_string(
+            'articles.html', {'articles': articles}
+        ),
+        'has_next': articles.has_next()
+    }
+    return JsonResponse(output_data)
+
+
+def lazy_load_comments(request):
+    pk = request.POST.get('container')
+    page = request.POST.get('page')
+
+    article = Article.objects.get(pk=pk)
     comments = Comment.objects.filter(post=article)
-    # use Django's pagination
-    # https://docs.djangoproject.com/en/dev/topics/pagination/
-    results_per_page = COMMENT_PAGE_LENGTH
-    paginator = Paginator(comments, results_per_page)
+
+    paginator = Paginator(comments, PAGE_LENGTH)
+
     try:
         comments = paginator.page(page)
     except PageNotAnInteger:
         comments = paginator.page(2)
     except EmptyPage:
         comments = paginator.page(paginator.num_pages)
-    # build a html comments list with the paginated comments
+
     format_comment_age(comments)
-    comments_html = loader.render_to_string(
-        'comments.html',
-        {'comments': comments}
-    )
-    # package output data and return it as a JSON object
     output_data = {
-        'comments_html': comments_html,
+        'contents_html': loader.render_to_string(
+            'comments.html', {'comments': comments}
+        ),
         'has_next': comments.has_next()
     }
     return JsonResponse(output_data)
@@ -111,10 +135,12 @@ class ArticlesByArticlesCategoryView(DetailView):
             ArticlesByArticlesCategoryView,
             self
         ).get_context_data(**kwargs)
-        top_ten_articles = Article.objects.order_by('-published_on').filter(
-            series__id=self.object.pk)[:10]
-        format_article_summaries(top_ten_articles)
-        context['articles'] = top_ten_articles
+        articles = Article.objects.filter(
+            series__id=self.object.pk).order_by('-published_on')
+        context['page_length'] = PAGE_LENGTH
+        article_list = articles.all()[:PAGE_LENGTH]
+        format_article_summaries(article_list)
+        context['articles'] = article_list
         return context
 
 
@@ -124,10 +150,11 @@ class ArticleDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
-        comments = Comment.objects.filter(post=self.object).order_by('-created_date')
-        context['comment_total'] = comments.count
-        context['comment_page_length'] = COMMENT_PAGE_LENGTH
-        comment_list = comments.all()[:COMMENT_PAGE_LENGTH]
+        comments = Comment.objects.filter(
+            post=self.object).order_by('-created_date')
+        context['total'] = comments.count
+        context['page_length'] = PAGE_LENGTH
+        comment_list = comments.all()[:PAGE_LENGTH]
         format_comment_age(comment_list)
         context['comments'] = comment_list
         return context
