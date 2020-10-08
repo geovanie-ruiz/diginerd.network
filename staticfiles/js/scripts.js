@@ -29,12 +29,6 @@
   // Collapse the navbar when page is scrolled
   $(window).scroll(navbarCollapse);
 
-  $(document).ready(function () {
-    $(".close").click(function () {
-      $("#myAlert").alert("close");
-    });
-  });
-
   // Summernote input form
   $(document).ready(function () {
     $('#summernote').summernote({
@@ -50,32 +44,36 @@
     });
   });
 
+  // Enforce plaintext paste
+  $('#summernote').on('summernote.paste', function (e, ne) {
+    var bufferText = ((ne.originalEvent || ne).clipboardData || window.clipboardData).getData('Text');
+    ne.preventDefault();
+    bufferText = bufferText.replace(/\r?\n/g, '<br>');
+    document.execCommand('insertText', false, bufferText);
+  });
+
   // Lazy loading comments
   $('#loadComments').on('click', function () {
     var link = $(this);
     var page = link.data('page');
+    var article = link.data('article');
     $.ajax({
       type: 'post',
       url: '/comments/',
       data: {
         'page': page,
-        'csrfmiddlewaretoken': window.CSRF_TOKEN // from index.html
+        'article': article,
+        'csrfmiddlewaretoken': window.CSRF_TOKEN
       },
       success: function (data) {
-        // if there are still more pages to load,
-        // add 1 to the "Load More Posts" link's page data attribute
-        // else hide the link
         if (data.has_next) {
           link.data('page', page + 1);
         } else {
           link.hide();
         }
-        // append html to the posts div
         $('#comments').append(data.comments_html);
       },
-      error: function (xhr, status, error) {
-        // shit happens friends!
-      }
+      error: function (xhr, status, error) { }
     });
   });
 })(jQuery); // End of use strict

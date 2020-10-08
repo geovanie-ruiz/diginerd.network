@@ -22,7 +22,7 @@
             <!-- Latest 3 Cards-->
             <div class="row mt-3 mx-auto">
                 <div class="col col-lg-8 col-md-12">
-                    <div class="card">
+                    <div class="card img-hover-zoom">
                         <img {% if big_article.hero_img %} src="{{ MEDIA_PREFIX }}{{ big_article.hero_img }}" {% else %}
                             src="https://placehold.it/768/163a63" {% endif %} class="card-img img-responsive" />
                         <div class="card-img-overlay">
@@ -40,7 +40,7 @@
                                 {{ big_article.summary|default:"A summary..." }}
                             </div>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer bg-primary text-white">
                             <div class="row">
                                 <div class="col text-left">
                                     <small>{{ big_article.author|default:"An Author" }}</small>
@@ -58,7 +58,7 @@
                     <div class="row mx-auto h-100 align-items-center">
                         {% for article in small_articles %}
                         <div class="col col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                            <div class="card">
+                            <div class="card img-hover-zoom">
                                 <img {% if article.hero_img %} src="{{ MEDIA_PREFIX }}{{ article.hero_img }}" {% else %}
                                     src="https://placehold.it/320/163a63" {% endif %} class="card-img img-responsive" />
                                 <div class="card-img-overlay">
@@ -72,7 +72,7 @@
                                 <div class="card-body">
                                     <span class="card-text">{{ article.title|default:"A Title" }}</span>
                                 </div>
-                                <div class="card-footer">
+                                <div class="card-footer bg-primary text-white">
                                     <div class="row">
                                         <div class="col text-left">
                                             <small>{{ article.author|default:"An Author" }}</small>
@@ -83,57 +83,6 @@
                                     </div>
                                 </div>
                                 <a href="{% url 'article' article.slug %}" class="stretched-link"></a>
-                            </div>
-                        </div>
-                        {% empty %}
-                        <div class="col col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                            <div class="card">
-                                <img src="https://placehold.it/320/163a63" class="card-img img-responsive" />
-                                <div class="card-img-overlay">
-                                    <div class="row">
-                                        <div class="col-3 text-left">
-                                            <span class="badge badge-pill badge-news mx-1">Type</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <span class="card-text">Small Article</span>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col text-left">
-                                            <small>Author</small>
-                                        </div>
-                                        <div class="col text-right">
-                                            <small>X days ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                            <div class="card">
-                                <img src="https://placehold.it/320/163a63" class="card-img img-responsive" />
-                                <div class="card-img-overlay">
-                                    <div class="row">
-                                        <div class="col-3 text-left">
-                                            <span class="badge badge-pill badge-news mx-1">Type</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <span class="card-text">Small Article</span>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col text-left">
-                                            <small>Author</small>
-                                        </div>
-                                        <div class="col text-right">
-                                            <small>X days ago</small>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         {% endfor %}
@@ -150,10 +99,11 @@
         <div class="row mt-3 mx-auto align-items-center">
             <!-- Card of the Day -->
             <div class="col col-lg-3 offset-lg-0 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12 text-center">
-                <div class="card">
+                <div class="card img-hover-zoom">
                     <div class="card-header bg-secondary">Card of the Day</div>
                     <img src="https://placehold.it/686x960/163a63/ffffff.webp?Text=Digimon"
                         class="card-img-bottom img-responsive" alt="Card of the Day: Digimon" />
+                        <a href="#!" class="stretched-link"></a>
                 </div>
             </div>
             <hr class="clearfix w-100 d-lg-none pb-3">

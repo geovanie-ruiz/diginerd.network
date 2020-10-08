@@ -9,7 +9,7 @@
         <div class="text-center w-90 mx-auto">
             <div class="d-flex justify-content-between comment-header">
                 <h1 class="page-section-heading text-secondary mb-3 d-inline-block">
-                    Comments [{{ comment_total|default:"-1" }}]
+                    Comments [{{ comment_total|default:"0" }}]
                 </h1>
                 <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseForm"
                     aria-expanded="false" aria-controls="collapseForm">
@@ -20,11 +20,13 @@
             <div class="container w-90 mx-auto">
                 <!-- Comment form -->
                 <div class="collapse" id="collapseForm">
-                    <form method="post">
+                    {% if user.is_authenticated %}
+                    <form role="form" method="post" action="{% url 'new_comment' %}">
                         {% csrf_token %}
                         <div class="form-group">
                             <div class="h5 text-left text-white m-1">Posting reply as {{ user }}</div>
                             <textarea class="form-control" rows="5" id="summernote" name="editordata"></textarea>
+                            <input type="hidden" name="slug" value="{{ object.slug }}">
                             <div class="text-right">
                                 <button type="submit" class="btn btn-secondary m-2">
                                     <i class="fas fa-reply"></i>&nbsp;Post
@@ -32,12 +34,22 @@
                             </div>
                         </div>
                     </form>
+                    {% else %}
+                    <div class="card comment">
+                        <div class="card-body text-center">
+                            <a href="{% url 'login' %}?next={{ request.path|urlencode }}">Login</a> to
+                            comment
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <!-- Comments List -->
-            <div id="comments"></div>
+            <div id="comments">{% include 'comments.html' %}</div>
+            {% if comment_total > comment_page_length %}
             <a type="button" class="btn btn-secondary" id="loadComments" href="javascript:void(0);"
-                data-page="1">Load Comments</a>
+                data-article="{{ object.slug }}" data-page="2">Load Comments</a>
+            {% endif %}
         </div>
     </div>
 </section>

@@ -5,15 +5,16 @@ from network import views
 urlpatterns = [
     # General Landing Page
     path('', views.IndexView.as_view(), name='index'),
-    
+
     # Network
     #     Article Categories List View
     path('network/', views.ArticleCategoriesListView.as_view(), name='network'),
     #     Article Category List/Articles filtered by Category
-    path('network/series/<int:pk>/', views.ArticlesByArticlesCategoryView.as_view(), name='articles_by_article_category'),
+    path('network/series/<int:pk>/', views.ArticlesByArticlesCategoryView.as_view(),
+         name='articles_by_article_category'),
     #     Article View
     path('network/<slug:slug>/', views.ArticleDetailView.as_view(), name='article'),
-    
+
     # Digifiction
     #     Landing page
     #path('digifiction/', views.StoryListView.as_view(), name='story'),
@@ -23,7 +24,7 @@ urlpatterns = [
     #path('digifiction/series/<int:pk>/', views.SeriesListView.as_view(), name='story_series_list'),
     #     Digifiction Article View
     #path('digifiction/<slug:slug>/', views.StoryDetailView.as_view(), name='story_article'),
-    
+
     # Local Game Store
     #     LGS Category (State) List
     #path('lgs/', views.ShopListView.as_view(), name='lgs'),
@@ -42,8 +43,10 @@ urlpatterns = [
 
     # Specific Article
     #path('decks/<slug:slug>/', views.DeckView.as_view(), name='deck_view'),
-    path('trial-sets/<slug:slug>/', views.TrialSetDetailView.as_view(), name='trial_set_view'),
-    path('boosters/<slug:slug>/', views.BoosterSetDetailView.as_view(), name='booster_set_view'),
+    path('trial-sets/<slug:slug>/',
+         views.TrialSetDetailView.as_view(), name='trial_set_view'),
+    path('boosters/<slug:slug>/', views.BoosterSetDetailView.as_view(),
+         name='booster_set_view'),
     #path('rulings/<slug:slug>/', views.RulingsDetailView.as_view(), name='rulings_view'),
     #path('errata/<slug:slug>/', views.ErrataDetailView.as_view(), name='errata_view'),
 
@@ -56,6 +59,7 @@ urlpatterns = [
     path('terms/', views.TermsView.as_view(), name='terms'),
     path('roadmap/', views.RoadmapView.as_view(), name='roadmap'),
 
-    # Comments lazy-loading
+    # Comments
     path('comments/', views.lazy_load_comments, name='lazy_load_comments'),
+    path('new-comment/', views.store_comment, name='new_comment'),
 ]

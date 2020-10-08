@@ -1,7 +1,7 @@
 {% for comment in comments %}
-<div class="card comment">
+<div class="card comment" id="comment{{ comment.pk }}">
     <div class="card-header text-left d-flex">
-        <img class="profile-picture" src="https://placehold.it/80x80/163a63" />
+        <!--<img class="profile-picture" src="https://placehold.it/80x80/163a63" />-->
         <div class="author">
             <div>
                 <strong class="h4">{{ comment.author }}</strong><br />
@@ -9,10 +9,10 @@
             </div>
         </div>
     </div>
-    <div class="card-body">
-        <p class="card-text lead">
-            {{ comment.text}}
-        </p>
+    <div class="scrollbar scrollbar-secondary">
+        <div class="card-body comment-text">
+            {{ comment.text|safe}}
+        </div>
     </div>
 </div>
 {% endfor %}

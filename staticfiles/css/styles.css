@@ -3358,7 +3358,13 @@ input[type="button"].btn-block {
 .card-body {
   flex: 1 1 auto;
   min-height: 1px;
-  padding: 1.25rem; }
+  padding: 1.25rem;
+  max-height: 25rem; 
+  overflow-y: auto; }
+
+.comment-text {
+  -webkit-mask-image: linear-gradient(to bottom, black 21rem, transparent 24.5rem);
+  mask-image: linear-gradient(to bottom, black 21rem, transparent 24.5rem); }
 
 .card-body-thin {
   flex: 1 1 auto;
@@ -7528,3 +7534,14 @@ form .row:first-child .floating-label-form-group {
   .comment .author {
     display: flex;
     align-items: flex-end; }
+  .comment ul, ol {
+    text-align: left; }
+
+.img-hover-zoom {
+  overflow: hidden; }
+
+.img-hover-zoom img {
+  transition: transform .5s ease; }
+
+.img-hover-zoom:hover img {
+  transform: scale(1.5); }
