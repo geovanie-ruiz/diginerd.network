@@ -197,22 +197,3 @@ class DeckView(DetailView):
     model = Article
     template_name = 'decks_view.html'
 
-
-class TrialSetListView(ListView):
-    """ Series 'trials' """
-    template_name = 'trial_sets.html'
-
-
-class TrialSetDetailView(DetailView):
-    model = Article
-    template_name = 'trial_set_view.html'
-
-
-class BoosterSetListView(ListView):
-    """ Series 'boosters' """
-    template_name = 'booster_sets.html'
-
-
-class BoosterSetDetailView(DetailView):
-    model = Article
-    template_name = 'booster_set_view.html'
