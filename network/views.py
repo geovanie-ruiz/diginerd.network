@@ -102,7 +102,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(IndexView, self).get_context_data(**kwargs)
 
         latest_three_articles = Article.objects.order_by('-published_on').filter(
             article_type__in=[ArticleType.NEWS, ArticleType.ARTICLE], status=Status.PUBLISHED)[:3]

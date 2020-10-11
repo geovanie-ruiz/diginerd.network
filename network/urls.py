@@ -7,13 +7,16 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
 
     # Network
-    #     Article Categories List View
     path('network/', views.ArticleCategoriesListView.as_view(), name='network'),
-    #     Article Category List/Articles filtered by Category
     path('network/series/<int:pk>/', views.ArticlesByArticlesCategoryView.as_view(),
          name='articles_by_article_category'),
-    #     Article View
     path('network/<slug:slug>/', views.ArticleDetailView.as_view(), name='article'),
+
+    # Cards
+    #path('rulings/', views.RulingsListView.as_view(), name='rulings'),
+    #path('rulings/<slug:slug>/', views.RulingsDetailView.as_view(), name='rulings_view'),
+    #path('errata/', views.ErrataListView.as_view(), name='errata'),
+    #path('errata/<slug:slug>/', views.ErrataDetailView.as_view(), name='errata_view'),
 
     # Digifiction
     #     Landing page

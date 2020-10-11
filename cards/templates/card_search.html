@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Diginerd - Cards{% endblock %}
+{% block content %}
+
+<header class="bg-primary text-white text-center">
+    <div class="container d-flex justify-content-between p-3">
+        <div>
+            [ Search Card Name/Detail ] [ btn ] [ filter ]
+        </div>
+        <div>
+            Sets
+            &nbsp;&middot;&nbsp;
+            Random
+            &nbsp;&middot;&nbsp;
+            API
+        </div>
+    </div>
+</header>
+
+<!-- Card List -->
+<section class="page-section" id="latest">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="page-section-heading text-secondary d-inline-block">Cards</h2>
+            <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 my-3">
+                {% include 'card-art.html' %}
+                {% include 'card-art.html' %}
+                {% include 'card-art.html' %}
+                {% include 'card-art.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

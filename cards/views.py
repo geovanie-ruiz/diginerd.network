@@ -42,7 +42,7 @@ def lazy_load_cards(request):
 
 
 class IndexView(TemplateView):
-    template_name = 'index.html'
+    template_name = 'card_search.html'
 
 
 class TrialSetListView(ListView):

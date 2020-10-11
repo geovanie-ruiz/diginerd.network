@@ -7537,3 +7537,28 @@ form .row:first-child .floating-label-form-group {
 
 .img-hover-zoom:hover img {
   transform: scale(1.5); }
+
+.clean {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0rem;
+  border-radius: 0rem; }
+
+.card .clean {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: rgba(0, 0, 0, .03);
+  border: 0.125rem solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.375rem; }
+
+.card .no-padding {
+  padding: 0rem; }
+
+.card-art {
+  position: relative;
+  display: flex; }
