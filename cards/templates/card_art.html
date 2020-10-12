@@ -1,0 +1,45 @@
+{% for card in cards %}
+<div class="col mb-4">
+    <div class="card clean shadow">
+        {% if card.art.all.count > 1 %}
+        <div class="card-header clean">
+            <ul class="nav nav-tabs card-header-tabs pull-right" id="art-selector" role="tablist">
+                {% for art in card.art.all %}
+                <li class="nav-item">
+                    <a class="nav-link {% if forloop.first %}active{% endif %}"
+                        id="{{card.number}}-{{ forloop.counter }}-tab" data-toggle="tab"
+                        href="#{{card.number}}-{{ forloop.counter }}" role="tab"
+                        aria-controls="{{card.number}}-{{ forloop.counter }}"
+                        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                        {{ forloop.counter }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="card-body no-padding">
+            {% if card.art.all.count > 1 %}
+            <div class="tab-content" id="myTabContent">
+                {% for art in card.art.all %}
+                <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+                    id="{{card.number}}-{{ forloop.counter }}" role="tabpanel"
+                    aria-labelledby="{{card.number}}-{{ forloop.counter }}-tab">
+                    <div class="card-art img-hover-zoom">
+                        <img src="{{ MEDIA_PREFIX}}{{ art.card_art }}" class="card-img img-responsive" />
+                        <a href="{% url 'card_view' card.number %}" class="stretched-link"></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="card-art img-hover-zoom">
+                <img src="{{ MEDIA_PREFIX}}{{ card.art.all.first.card_art }}" class="card-img img-responsive" />
+                <a href="{% url 'card_view' card.number %}" class="stretched-link"></a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -101,7 +101,7 @@ class DivivolveCost(models.Model):
 class CardArt(models.Model):
     artist = models.CharField(max_length=255)
     card_art = models.ImageField(upload_to='art/card/', default='art/no-img.png')
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='art')
     release_set = models.ForeignKey(ReleaseSet, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):

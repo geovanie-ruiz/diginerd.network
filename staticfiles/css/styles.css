@@ -7562,3 +7562,6 @@ form .row:first-child .floating-label-form-group {
 .card-art {
   position: relative;
   display: flex; }
+
+.card-search {
+  width: 100rem; }
