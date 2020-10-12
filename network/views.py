@@ -1,6 +1,6 @@
 import timeago
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Max
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.template import loader
@@ -12,16 +12,18 @@ from django.views.generic.edit import FormView
 
 from network.forms.forms import ShopForm
 from network.models import Article, ArticleType, Comment, Series, Shop, Status
+from cards.models import Card
 
 
 PAGE_LENGTH = 5
 
 
-def format_article_summaries(articles):
+def format_article_summaries(articles, length=''):
+    char_count = 540 if length == 'long' else 180
     for article in articles:
         article.age = timeago.format(article.published_on, timezone.now())
-        if len(article.content) > 180:
-            article.summary = strip_tags(f'{article.content[:177]}...')
+        if len(article.content) > char_count:
+            article.summary = strip_tags(f'{article.content[:char_count]}...')
         else:
             article.summary = strip_tags(article.content)
 
@@ -29,6 +31,18 @@ def format_article_summaries(articles):
 def format_comment_age(comments):
     for comment in comments:
         comment.age = timeago.format(comment.created_date, timezone.now())
+
+
+def format_card_discussions(discussions):
+    char_count = 162
+    for discussion in discussions:
+        discussion.age = timeago.format(
+            discussion.comments.first().created_date, timezone.now())
+        if len(discussion.comments.first().text) > char_count:
+            discussion.summary = strip_tags(
+                f'{discussion.comments.first().text[:char_count]}...')
+        else:
+            discussion.summary = strip_tags(discussion.comments.first().text)
 
 
 def store_comment(request):
@@ -106,24 +120,26 @@ class IndexView(TemplateView):
 
         latest_three_articles = Article.objects.order_by('-published_on').filter(
             article_type__in=[ArticleType.NEWS, ArticleType.ARTICLE], status=Status.PUBLISHED)[:3]
+        latest_five_discussions = Card.objects.annotate(
+            last_activity=Max('comments__created_date'),
+            comment_count=Count('comments')
+        ).filter(comment_count__gt=0).order_by('-last_activity')[:5]
 
         format_article_summaries(latest_three_articles)
+        format_card_discussions(latest_five_discussions)
+
         context['big_article'] = latest_three_articles[0]
         context['small_articles'] = latest_three_articles[1:]
+        context['cotd'] = Card.objects.get(
+            card_of_the_day=timezone.localdate())
+        context['discussions'] = latest_five_discussions
 
         return context
 
 
 class ArticleCategoriesListView(ListView):
-    model = Article
+    model = Series
     template_name = 'article_category_list.html'
-
-    def get_queryset(self, *args, **kwargs):
-        qs = Article.objects.filter(
-            article_type__in=[ArticleType.NEWS, ArticleType.ARTICLE],
-            status=Status.PUBLISHED
-        ).order_by('series').distinct('series')
-        return qs
 
 
 class ArticlesByArticlesCategoryView(DetailView):
@@ -137,9 +153,10 @@ class ArticlesByArticlesCategoryView(DetailView):
         ).get_context_data(**kwargs)
         articles = Article.objects.filter(
             series__id=self.object.pk).order_by('-published_on')
+        context['total'] = articles.count
         context['page_length'] = PAGE_LENGTH
         article_list = articles.all()[:PAGE_LENGTH]
-        format_article_summaries(article_list)
+        format_article_summaries(article_list, 'long')
         context['articles'] = article_list
         return context
 
@@ -196,4 +213,3 @@ class DecksListView(ListView):
 class DeckView(DetailView):
     model = Article
     template_name = 'decks_view.html'
-

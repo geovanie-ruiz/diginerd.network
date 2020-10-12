@@ -1,6 +1,13 @@
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
 {% for article in articles %}
 <a href="{% url 'article' article.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
-    <img class="img-float img-responsive card-thumbnail" src="https://placehold.it/128/163a63" alt="" />
+    <img {% if article.hero_img %} 
+            src="{{ MEDIA_PREFIX }}{{ article.hero_img }}"
+        {% else %}
+            src="https://placehold.it/128/163a63"
+        {% endif %} 
+        class="img-float img-responsive card-thumbnail" />
     <div class="d-flex justify-content-between">
         <h5 class="mb-1">{{ article.title }}</h5>
         <small>Posted by {{ article.author|default:"An Author" }}
@@ -8,4 +15,6 @@
     </div>
     <div class="text-left mb-1">{{ article.summary|default:"A summary"}}</div>
 </a>
+{% empty %}
+<div class="lead">No Articles In Category</div>
 {% endfor %}

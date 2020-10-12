@@ -1,5 +1,8 @@
+import random
+
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Max, Count
+from django.db.models import Count, Max, F
+from django.db.models.functions import Coalesce
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.template import loader
@@ -10,9 +13,21 @@ from cards.models import Card
 PAGE_LENGTH = 8
 
 
+def get_random_card():
+    max_id = Card.objects.all().count()-1
+    while True:
+        rand_id = random.randint(0, max_id)
+        card = Card.objects.all()[rand_id]
+        if card:
+            return card.number
+
+
 def lazy_load_cards(request):
     page = request.POST.get('page')
-    cards = Card.objects.all()  # order by last discussion post
+    cards = Card.objects.annotate(
+        last_activity=Max('comments__created_date'),
+        comment_count=Coalesce(Count('comments'), 0)
+    ).order_by(F('last_activity').desc(nulls_last=True))
     paginator = Paginator(cards, PAGE_LENGTH)
     try:
         cards = paginator.page(page)
@@ -31,11 +46,14 @@ class CardsIndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(CardsIndexView, self).get_context_data(**kwargs)
         cards = Card.objects.annotate(
-            last_activity=Max('comments__created_date')
-        ).order_by('-last_activity')
+            last_activity=Max('comments__created_date'),
+            comment_count=Coalesce(Count('comments'), 0)
+        ).order_by(F('last_activity').desc(nulls_last=True))
+        context['total'] = cards.count
         context['page_length'] = PAGE_LENGTH
         card_list = cards.all()[:PAGE_LENGTH]
         context['cards'] = card_list
+        context['random'] = get_random_card()
         return context
 
 

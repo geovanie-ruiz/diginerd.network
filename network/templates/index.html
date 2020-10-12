@@ -101,9 +101,9 @@
             <div class="col col-lg-3 offset-lg-0 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12 text-center">
                 <div class="card img-hover-zoom">
                     <div class="card-header bg-secondary">Card of the Day</div>
-                    <img src="https://placehold.it/686x960/163a63/ffffff.webp?Text=Digimon"
-                        class="card-img-bottom img-responsive" alt="Card of the Day: Digimon" />
-                        <a href="#!" class="stretched-link"></a>
+                    <img src="{{ MEDIA_PREFIX}}{{ cotd.art.all.first.card_art }}" class="card-img-bottom img-responsive"
+                        alt="Card of the Day: Digimon" />
+                    <a href="{% url 'card_view' cotd.number %}" class="stretched-link"></a>
                 </div>
             </div>
             <hr class="clearfix w-100 d-lg-none pb-3">
@@ -112,18 +112,24 @@
 
                 <div class="container">
                     <div class="list-group shadow-lg p-0 rounded">
+                        {% for discussion in discussions %}
                         <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                             <img class="img-float img-responsive card-thumbnail"
-                                src="https://placehold.it/686x960/163a63" alt="" />
+                                src="{{ MEDIA_PREFIX}}{{ discussion.art.all.first.card_art }}" alt="" />
                             <div class="d-flex justify-content-between">
-                                <h5 class="mb-1">BT01-010 "Agumon"</h5>
-                                <small>Comment by User 3 days ago</small>
+                                <h5 class="mb-1">{{ discussion }}</h5>
+                                <small>{{ discussion.age }}</small>
                             </div>
-                            <div class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                                risus varius blandit. Donec id elit non mi porta gravida at eget metus. Maecenas sed
-                                diam eget risus varius blandit.
+                            <div class="mb-1">
+                                <blockquote class="blockquote">
+                                    <p class="mb-0">{{ discussion.summary }}</p>
+                                    <footer class="blockquote-footer">Posted by
+                                        <cite title="Source Title">{{ discussion.comments.first.author }}</cite>
+                                    </footer>
+                                </blockquote>
                             </div>
                         </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

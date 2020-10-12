@@ -18,8 +18,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.static import serve
+from network import views as NetworkViews
+from cards import views as CardViews
 
 urlpatterns = [
+    # POST paths
+    path('load-articles/', NetworkViews.lazy_load_articles, name='lazy_load_articles'),
+    path('load-comments/', NetworkViews.lazy_load_comments, name='lazy_load_comments'),
+    path('load-cards/', CardViews.lazy_load_cards, name='lazy_load_cards'),
+    path('new-comment/', NetworkViews.store_comment, name='new_comment'),
+
+    # Root paths
     path('cards/', include('cards.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),

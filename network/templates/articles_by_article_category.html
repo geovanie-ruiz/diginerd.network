@@ -7,19 +7,17 @@
 {% block title %}Diginerd - {{ object.name }}{% endblock %}
 {% block content %}
 
-<!-- Articles List Section -->
 <section class="page-section" id="categories">
     <div class="container text-center">
         <h2 class="page-section-heading text-center text-secondary mb-4 d-inline-block">{{ object.name }}</h2>
         <div class="container">
-            <div class="list-group shadow-lg p-0 rounded" id="articles">
-                <!-- Articles List -->
+            <div class="list-group shadow-lg p-0 rounded mb-3" id="articles">
                 {% include 'articles.html' %}
-                {% if total > page_length %}
-                <a type="button" class="btn btn-secondary" id="loadContent" href="javascript:void(0);"
-                    data-container="{{ object.pk }}" data-page="2" data-type=0>Load Articles</a>
-                {% endif %}
             </div>
+            {% if total > page_length %}
+            <a type="button" class="btn btn-secondary" id="loadContent" href="javascript:void(0);"
+                data-container="{{ object.pk }}" data-page="2" data-type=0>Load Articles</a>
+            {% endif %}
         </div>
     </div>
 </section>

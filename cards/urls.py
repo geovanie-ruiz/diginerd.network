@@ -14,7 +14,4 @@ urlpatterns = [
 
     # Card View
     path('card-details/<str:number>', views.CardDetailView.as_view(), name='card_view'),
-
-    # POST paths
-    path('load-cards/', views.lazy_load_cards, name='lazy_load_cards'),
 ]

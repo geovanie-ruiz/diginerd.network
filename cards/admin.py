@@ -59,7 +59,7 @@ class CardAdmin(admin.ModelAdmin):
     list_display = ('number', 'name', 'card_type', 'release_set', 'rarity')
     list_filter = ('color', 'release_set', 'rarity', 'card_type', 'flavor_type', 'flavor_attribute')
     fieldsets = [
-        ('Card ID',         {'fields': ['number', 'release_set', 'rarity']}),
+        ('Card ID',         {'fields': ['number', 'release_set', 'rarity', 'card_of_the_day']}),
         ('Details',         {'fields': ['name', 'card_type']}),
         ('Play',            {'fields': ['color', 'play_cost', 'level', 'stage', 'digimon_power']}),
         ('Flavor',          {'fields': ['flavor_type', 'flavor_attribute']}),

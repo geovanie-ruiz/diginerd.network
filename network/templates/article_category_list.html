@@ -1,24 +1,31 @@
 {% extends "base.html" %}
 {% block title %}Diginerd - The Network{% endblock %}
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
 {% block content %}
 
 <section class="page-section" id="categories">
     <div class="container">
         <div class="text-center">
             <h2 class="page-section-heading text-secondary mb-4 d-inline-block">Network Categories</h2>
-            <!-- Categories list -->
             <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
                 {% for serie in object_list %}
                 <div class="col mb-4">
                     <div class="card img-hover-zoom">
-                        <img {% if serie.series.hero_img %} src="{{ MEDIA_PREFIX }}{{ serie.series.hero_img }}" {% else %}
-                            src="https://placehold.it/320/163a63" {% endif %} class="card-img img-responsive" />
+                        <img {% if serie.hero_img %} 
+                                src="{{ MEDIA_PREFIX }}{{ serie.hero_img }}"
+                            {% else %}
+                                src="https://placehold.it/320/163a63" 
+                            {% endif %} 
+                            class="card-img img-responsive" />
                         <div class="card-img-overlay h-100 d-flex flex-column justify-content-end text-center">
-                            <h3 class="text-white">{{ serie.series.name }}</h3>
+                            <h3 class="text-white">{{ serie.name }}</h3>
                         </div>
-                        <a href="{% url 'articles_by_article_category' serie.series.pk %}" class="stretched-link"></a>
+                        <a href="{% url 'articles_by_article_category' serie.pk %}" class="stretched-link"></a>
                     </div>
                 </div>
+                {% empty %}
+                <div class="lead">No Categories Yet</div>
                 {% endfor %}
             </div>
         </div>
