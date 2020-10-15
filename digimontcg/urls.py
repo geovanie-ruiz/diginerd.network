@@ -23,9 +23,9 @@ from cards import views as CardViews
 
 urlpatterns = [
     # POST paths
+    path('load-cards/', CardViews.lazy_load_cards, name='lazy_load_cards'),
     path('load-articles/', NetworkViews.lazy_load_articles, name='lazy_load_articles'),
     path('load-comments/', NetworkViews.lazy_load_comments, name='lazy_load_comments'),
-    path('load-cards/', CardViews.lazy_load_cards, name='lazy_load_cards'),
     path('new-comment/', NetworkViews.store_comment, name='new_comment'),
 
     # Root paths
