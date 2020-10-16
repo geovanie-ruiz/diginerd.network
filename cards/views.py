@@ -43,7 +43,8 @@ def lazy_load_cards(request):
 
 def card_autocomplete(request, **kwargs):
     term = request.GET.get('term')
-    cards = [str(card) for card in Card.objects.filter(name__icontains=term)]
+    cards = [card.name for card in Card.objects.filter(
+        name__icontains=term).order_by('name').distinct('name')]
     return JsonResponse(cards, safe=False)
 
 
