@@ -12,6 +12,7 @@ from django.views.generic import DetailView, ListView, TemplateView
 from cards.models import Card, CardEffect
 
 PAGE_LENGTH = 8
+AUTOCOMPLETE_LIMIT = 5
 
 
 def get_random_card():
@@ -45,7 +46,7 @@ def card_autocomplete(request, **kwargs):
     term = request.GET.get('term')
     cards = [card.name for card in Card.objects.filter(
         name__icontains=term).order_by('name').distinct('name')]
-    return JsonResponse(cards, safe=False)
+    return JsonResponse(cards[:AUTOCOMPLETE_LIMIT], safe=False)
 
 
 class CardsIndexView(TemplateView):
