@@ -1,34 +1,6 @@
 (function ($) {
   "use strict";
 
-  // Closes responsive menu when a scroll trigger link is clicked
-  $('.js-scroll-trigger').click(function () {
-    $('.navbar-collapse').collapse('hide');
-  });
-
-  // Activate scrollspy to add active class to navbar items on scroll
-  $('body').scrollspy({
-    target: '#mainNav',
-    offset: 80
-  });
-
-  // Collapse Navbar
-  var navbarCollapse = function () {
-    var mainNav = $('#mainNav');
-    if (mainNav.length) {
-      if ($("#mainNav").offset().top > 100) {
-        $("#mainNav").addClass("navbar-shrink");
-      } else {
-        $("#mainNav").removeClass("navbar-shrink");
-      }
-    }
-  };
-
-  // Collapse now if page is not at top
-  navbarCollapse();
-  // Collapse the navbar when page is scrolled
-  $(window).scroll(navbarCollapse);
-
   // Summernote input form
   $(document).ready(function () {
     $('#summernote').summernote({
@@ -52,7 +24,7 @@
     document.execCommand('insertText', false, bufferText);
   });
 
-  // Lazy loading articles and contents
+  // Lazy loading content
   $('#loadContent').on('click', function () {
     var link = $(this);
     var page = link.data('page');
@@ -70,7 +42,7 @@
         content = 'cards';
         break;
     }
-    
+
     $.ajax({
       type: 'post',
       url: ''.concat('/load-', content, '/'),
@@ -90,4 +62,5 @@
       error: function (xhr, status, error) { }
     });
   });
+
 })(jQuery); // End of use strict

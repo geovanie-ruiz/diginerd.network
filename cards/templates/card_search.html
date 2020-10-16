@@ -13,8 +13,12 @@
             <form class="form-inline">
                 <div class="form-group row justify-content-start">
                     <div class="col-xs-8 mr-2">
-                        <input type="text" class="form-control mb-2 w-100" id="cardSearch"
-                            placeholder="Search Card Name">
+                        <!--<input type="text" class="form-control mb-2 w-100" id="cardSearch"
+                            placeholder="Search Card Name">-->
+                        <div class="ui-widget">
+                            <input type="text" class="form-control mb-2 w-100" id="cardSearch"
+                                placeholder="Search Card Name">
+                        </div>
                     </div>
                     <div class="col-xs-2 mr-2">
                         <button type="submit" class="btn btn-primary mb-2">
@@ -54,4 +58,14 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block jquery %}
+<script>
+    $(function () {
+        $("#cardSearch").autocomplete({
+            source: "{% url 'autocomplete' %}"
+        });
+    });
+</script>
 {% endblock %}

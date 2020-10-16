@@ -111,7 +111,7 @@ class CardEffect(models.Model):
     effect_type = enum.EnumField(EffectType)
     effect_text = models.TextField(null=True, blank=True)
     card_keyword = models.ForeignKey(CardKeyword, on_delete=models.PROTECT, null=True, blank=True)
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='effect')
 
     class Meta:
         constraints = [

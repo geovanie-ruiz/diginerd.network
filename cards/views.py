@@ -1,14 +1,15 @@
+import json
 import random
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Count, Max, F
+from django.db.models import Count, F, Max, Q
 from django.db.models.functions import Coalesce
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.template import loader
 from django.views.generic import DetailView, ListView, TemplateView
 
-from cards.models import Card
+from cards.models import Card, CardEffect
 
 PAGE_LENGTH = 8
 
@@ -38,6 +39,12 @@ def lazy_load_cards(request):
     cards_html = loader.render_to_string('card_art.html', {'cards': cards})
     output_data = {'contents_html': cards_html, 'has_next': cards.has_next()}
     return JsonResponse(output_data)
+
+
+def card_autocomplete(request, **kwargs):
+    term = request.GET.get('term')
+    cards = [str(card) for card in Card.objects.filter(name__icontains=term)]
+    return JsonResponse(cards, safe=False)
 
 
 class CardsIndexView(TemplateView):
