@@ -66,27 +66,20 @@ class CardsIndexView(TemplateView):
         return context
 
 
+class FilteredListView(TemplateView):
+    template_name = 'card_search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(FilteredListView, self).get_context_data(**kwargs)
+        cards = Card.objects.filter(name__icontains=self.kwargs['term']).all()
+        print(self.kwargs['term'])
+        context['cards'] = cards
+        context['random'] = get_random_card()
+        return context
+
+
 class SetListView(ListView):
     template_name = 'sets.html'
-
-
-class TrialSetListView(ListView):
-    """ Series 'trials' """
-    template_name = 'trial_sets.html'
-
-
-class TrialSetDetailView(DetailView):
-    template_name = 'trial_set_view.html'
-
-
-class BoosterSetListView(ListView):
-    """ Series 'boosters' """
-    template_name = 'booster_sets.html'
-
-
-class BoosterSetDetailView(DetailView):
-    template_name = 'booster_set_view.html'
-
 
 class CardDetailView(DetailView):
     template_name = 'card.html'

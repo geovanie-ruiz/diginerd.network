@@ -8,8 +8,7 @@ urlpatterns = [
 
     # Filtered Card Lists
     path('sets/', views.SetListView.as_view(), name='sets'),
-    path('trial-sets/', views.TrialSetListView.as_view(), name='trials'),
-    path('booster-sets/', views.BoosterSetListView.as_view(), name='boosters'),
+    path('list/<str:term>/', views.FilteredListView.as_view(), name='filtered_list'),
     #path('decks/', views.DecksListView.as_view(), name='decks'),
 
     # Card View
