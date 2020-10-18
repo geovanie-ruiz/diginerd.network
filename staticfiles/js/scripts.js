@@ -63,4 +63,12 @@
     });
   });
 
+  // Discreet search validation
+  document.addEventListener('invalid', (function () {
+    return function (e) {
+      e.preventDefault();
+      document.getElementById("cardSearch").focus();
+    };
+  })(), true);
+
 })(jQuery); // End of use strict

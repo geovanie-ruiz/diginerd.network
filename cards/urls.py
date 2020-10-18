@@ -3,8 +3,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # General Landing Page
-    path('', views.CardsIndexView.as_view(), name='cards'),
+    # POST paths
+    path('search/', views.card_search, name='card_search'),
+    path('random/', views.get_random_card, name='random'),
 
     # Filtered Card Lists
     path('sets/', views.SetListView.as_view(), name='sets'),
@@ -13,4 +14,7 @@ urlpatterns = [
 
     # Card View
     path('card-details/<str:number>', views.CardDetailView.as_view(), name='card_view'),
+
+    # General Landing Page
+    path('', views.CardsIndexView.as_view(), name='cards'),
 ]

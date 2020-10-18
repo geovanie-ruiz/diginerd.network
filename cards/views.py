@@ -5,23 +5,24 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, F, Max, Q
 from django.db.models.functions import Coalesce
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.views.generic import DetailView, ListView, TemplateView
 
-from cards.models import Card, CardEffect
+from cards.models import Card, CardEffect, ReleaseSet
 
 PAGE_LENGTH = 8
-AUTOCOMPLETE_LIMIT = 5
+AUTOCOMPLETE_LIMIT = 10
 
 
-def get_random_card():
+def get_random_card(request):
     max_id = Card.objects.all().count()-1
-    while True:
+    search = True
+    while search:
         rand_id = random.randint(0, max_id)
         card = Card.objects.all()[rand_id]
-        if card:
-            return card.number
+        search = False if card else True
+    return redirect('card_view', card.number)
 
 
 def lazy_load_cards(request):
@@ -49,8 +50,13 @@ def card_autocomplete(request, **kwargs):
     return JsonResponse(cards[:AUTOCOMPLETE_LIMIT], safe=False)
 
 
+def card_search(request):
+    term = request.POST.get('term')
+    return redirect('filtered_list', term)
+
+
 class CardsIndexView(TemplateView):
-    template_name = 'card_search.html'
+    template_name = 'card_index.html'
 
     def get_context_data(self, **kwargs):
         context = super(CardsIndexView, self).get_context_data(**kwargs)
@@ -58,28 +64,41 @@ class CardsIndexView(TemplateView):
             last_activity=Max('comments__created_date'),
             comment_count=Coalesce(Count('comments'), 0)
         ).order_by(F('last_activity').desc(nulls_last=True))
+        context['list_name'] = 'Cards'
         context['total'] = cards.count
         context['page_length'] = PAGE_LENGTH
         card_list = cards.all()[:PAGE_LENGTH]
         context['cards'] = card_list
-        context['random'] = get_random_card()
         return context
 
 
 class FilteredListView(TemplateView):
-    template_name = 'card_search.html'
+    template_name = 'card_index.html'
 
     def get_context_data(self, **kwargs):
+        term = self.kwargs['term']
         context = super(FilteredListView, self).get_context_data(**kwargs)
-        cards = Card.objects.filter(name__icontains=self.kwargs['term']).all()
-        print(self.kwargs['term'])
+        cards = Card.objects.filter(name__icontains=term).all()
+        context['list_name'] = f'"{term}"'
         context['cards'] = cards
-        context['random'] = get_random_card()
+        context['breadcrumbs'] = [
+            {
+                'name': 'Search Results',
+                'view': 'filtered_list',
+                'url': None
+            }
+        ]
         return context
 
 
 class SetListView(ListView):
-    template_name = 'sets.html'
+    model = ReleaseSet
+    template_name = 'card_sets.html'
+
 
 class CardDetailView(DetailView):
-    template_name = 'card.html'
+    model = Card
+    template_name = 'card_details.html'
+
+    def get_object(self):
+        return get_object_or_404(Card, number=self.kwargs['number'])

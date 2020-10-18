@@ -1,71 +1,53 @@
-{% extends "base.html" %}
-{% block head %}
-<script type="text/javascript">
-    window.CSRF_TOKEN = "{{ csrf_token }}";
-</script>
-{% endblock %}
-{% block title %}Diginerd - Cards{% endblock %}
-{% block content %}
-
 <header class="bg-primary text-white text-center">
     <div class="container d-flex justify-content-between p-3">
-        <div>
-            <form class="form-inline">
-                <div class="form-group row justify-content-start">
-                    <div class="col-xs-8 mr-2">
-                        <!--<input type="text" class="form-control mb-2 w-100" id="cardSearch"
-                            placeholder="Search Card Name">-->
-                        <div class="ui-widget">
-                            <input type="text" class="form-control mb-2 w-100" id="cardSearch"
-                                placeholder="Search Card Name">
-                        </div>
-                    </div>
-                    <div class="col-xs-2 mr-2">
-                        <button type="submit" class="btn btn-primary mb-2">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button type="button" class="btn btn-secondary mb-2">
-                            <i class="fas fa-filter"></i>
-                        </button>
+        <form class="form-inline" role="form" method="post" action="{% url 'card_search' %}">
+            {% csrf_token %}
+            <div class="form-group row justify-content-start">
+                <div class="col-xs-8 mr-2">
+                    <div class="ui-widget">
+                        <input type="text" class="form-control mb-2 w-100" id="cardSearch" placeholder="Search Digimon"
+                            name="term" required pattern=".{3,}" title="3 characters minimum">
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="col-xs-2 mr-2">
+                    <button type="submit" class="btn btn-primary mb-2">
+                        <i class="fas fa-search"></i>&nbsp;Search
+                    </button>
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-secondary mb-2" data-toggle="modal"
+                        data-target="#exampleModalCenter">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                </div>
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="row text-center">
             <div class="col-xs-3 my-auto"><a href="{% url 'sets' %}" class="text-secondary">Sets</a></div>
             <div class="col-xs-1 my-auto mx-1"><span class="text-secondary">&middot;</span></div>
-            <div class="col-xs-3 my-auto"><a href="{% url 'card_view' random %}" class="text-secondary">Random</a></div>
+            <div class="col-xs-3 my-auto"><a href="{% url 'random' %}" class="text-secondary">Random</a></div>
             <div class="col-xs-1 my-auto mx-1"><span class="text-secondary">&middot;</span></div>
             <div class="col-xs-3 my-auto"><a href="#!" class="text-secondary disabled">API</a></div>
         </div>
     </div>
 </header>
-
-<section class="page-section" id="latest">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="page-section-heading text-secondary d-inline-block">Cards</h2>
-            <div id="cards" class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 my-3 align-items-end">
-                {% include 'card_art.html' %}
-            </div>
-            {% if total > page_length %}
-            <a type="button" class="btn btn-secondary" id="loadContent" href="javascript:void(0);" data-container=""
-                data-page="2" data-type=2>Load Cards</a>
-            {% endif %}
-        </div>
-    </div>
-</section>
-
-{% endblock %}
-
-{% block jquery %}
-<script>
-    $(function () {
-        $("#cardSearch").autocomplete({
-            source: "{% url 'autocomplete' %}"
-        });
-    });
-</script>
-{% endblock %}

@@ -1,0 +1,16 @@
+<section class="page-section" id="latest">
+    <div class="container">
+        {% include 'breadcrumbs.html' %}
+        <div class="text-center">
+            <h2 class="page-section-heading text-secondary d-inline-block">{{ list_name }}</h2>
+            <div id="cards"
+                class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 my-3 align-items-end justify-content-center">
+                {% include 'card_art.html' %}
+            </div>
+            {% if total > page_length %}
+            <a type="button" class="btn btn-secondary" id="loadContent" href="javascript:void(0);" data-container=""
+                data-page="2" data-type=2>Load Cards</a>
+            {% endif %}
+        </div>
+    </div>
+</section>

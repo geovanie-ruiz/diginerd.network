@@ -3508,6 +3508,7 @@ input[type="button"].btn-block {
   display: flex;
   flex-wrap: wrap;
   padding: 0.75rem 1rem;
+  margin-top: -5rem;
   margin-bottom: 1rem;
   list-style: none;
   background-color: #e9ecef;
@@ -3518,8 +3519,9 @@ input[type="button"].btn-block {
   .breadcrumb-item + .breadcrumb-item::before {
     display: inline-block;
     padding-right: 0.5rem;
+    font-family: "FontAwesome";
     color: #6c757d;
-    content: "/"; }
+    content: "\f101"; }
 
 .breadcrumb-item + .breadcrumb-item:hover::before {
   text-decoration: underline; }

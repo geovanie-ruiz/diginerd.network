@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script type="text/javascript">
+    window.CSRF_TOKEN = "{{ csrf_token }}";
+</script>
+{% endblock %}
+
+{% block title %}Diginerd - Card Database{% endblock %}
+
+{% block content %}
+    {% include 'card_search.html' %}
+
+    {% block list %}
+        {% include 'card_list.html' %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block jquery %}
+<script>
+    $(function () {
+        $("#cardSearch").autocomplete({
+            source: "{% url 'autocomplete' %}"
+        });
+    });
+</script>
+{% endblock %}
