@@ -4127,6 +4127,9 @@ input[type="button"].btn-block {
     text-decoration: none; }
   .close:not(:disabled):not(.disabled):hover, .close:not(:disabled):not(.disabled):focus {
     opacity: .75; }
+  .close:focus, .close:active {
+    outline: none !important;
+    box-shadow: none; }
 
 button.close {
   padding: 0;

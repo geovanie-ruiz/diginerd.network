@@ -1,28 +1,86 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li 
-            {% if breadcrumbs %}
-            class="breadcrumb-item"
+        {% if not breadcrumbs %}
+            <li class="breadcrumb-item active" aria-current="page">
+                Database
+            </li>
+        {% else %}
+            <li class="breadcrumb-item">
+                <a href="{% url 'cards' %}">Database</a>
+            </li>
+        {% endif %}
+
+        {% if breadcrumbs.card %}
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ breadcrumbs.card.name }}
+            </li>
+        {% endif %}
+
+        {% if breadcrumbs.search_result %}
+            {% if breadcrumbs.search_result.card %}
+                <li class="breadcrumb-item">
+                    <a href="{% url breadcrumbs.search_result.view breadcrumbs.search_result.key %}">
+                        {{ breadcrumbs.search_result.name }}
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{ breadcrumbs.search_result.card.name }}
+                </li>
             {% else %}
-            class="breadcrumb-item active"
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{ breadcrumbs.search_result.name }}
+                </li>
             {% endif %}
-        >
-            <a href="{% url 'cards' %}">Database</a>
-        </li>
-        {% for breadcrumb in breadcrumbs %}
-        <li 
-            {% if forloop.last %}
-            class="breadcrumb-item active" aria-current="page"
+        {% endif %}
+
+        {% if breadcrumbs.sets %}
+            {% if breadcrumbs.sets.set %}
+                {% if breadcrumbs.sets.set.card %}
+                    <li class="breadcrumb-item">
+                        <a href="{% url breadcrumbs.sets.view %}">
+                            {{ breadcrumbs.sets.name }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url breadcrumbs.sets.set.view breadcrumbs.sets.set.key %}">
+                            {{ breadcrumbs.sets.set.name }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ breadcrumbs.sets.set.card.name }}
+                    </li>
+                {% else %}
+                    <li class="breadcrumb-item">
+                        <a href="{% url breadcrumbs.sets.view %}">
+                            {{ breadcrumbs.sets.name }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ breadcrumbs.sets.set.name }}
+                    </li>
+                {% endif %}
             {% else %}
-            class="breadcrumb-item"
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{ breadcrumbs.sets.name }}
+                </li>
             {% endif %}
-        >
-            {% if breadcrumb.url %}
-            <a href="{% url breadcrumb.view breadcrumb.url %}">{{ breadcrumb.name }}</a>
+        {% endif %}
+
+        {% if breadcrumbs.set %}
+            {% if breadcrumbs.set.card %}
+                <li class="breadcrumb-item">
+                    <a href="{% url breadcrumbs.set.view breadcrumbs.set.key %}">
+                        {{ breadcrumbs.set.name }}
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{ breadcrumbs.set.card.name }}
+                </li>
             {% else %}
-            {{ breadcrumb.name }}
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{ breadcrumbs.set.name }}
+                </li>
             {% endif %}
-        </li>
-        {% endfor %}
+        {% endif %}
     </ol>
 </nav>

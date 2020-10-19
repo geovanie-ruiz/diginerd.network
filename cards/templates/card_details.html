@@ -1,5 +1,14 @@
 {% extends 'card_index.html' %}
 
 {% block list %}
-    {{ object }}
+
+<section class="page-section" id="details">
+    <div class="container">
+        {% include 'breadcrumbs.html' %}
+        <div class="text-center">
+            <h2 class="page-section-heading text-secondary d-inline-block">{{ object }}</h2>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

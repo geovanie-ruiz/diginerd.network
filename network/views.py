@@ -1,6 +1,6 @@
 import timeago
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Count, Q, Max
+from django.db.models import Count, Q, Max, F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.template import loader
@@ -116,24 +116,30 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-
+        # Data
         latest_three_articles = Article.objects.order_by('-published_on').filter(
             article_type__in=[ArticleType.NEWS, ArticleType.ARTICLE], status=Status.PUBLISHED)[:3]
+        format_article_summaries(latest_three_articles)
+
         latest_five_discussions = Card.objects.annotate(
             last_activity=Max('comments__created_date'),
             comment_count=Count('comments')
         ).filter(comment_count__gt=0).order_by('-last_activity')[:5]
-
-        format_article_summaries(latest_three_articles)
         format_card_discussions(latest_five_discussions)
 
-        context['big_article'] = latest_three_articles[0]
-        context['small_articles'] = latest_three_articles[1:]
-        context['cotd'] = Card.objects.get(
-            card_of_the_day=timezone.localdate())
-        context['discussions'] = latest_five_discussions
+        cotd = Card.objects.order_by(
+            F('card_of_the_day').desc(nulls_last=True))[:1]
 
+        # Context
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'big_article': latest_three_articles[0],
+                'small_articles': latest_three_articles[1:],
+                'cotd': cotd.get(),
+                'discussions': latest_five_discussions
+            }
+        )
         return context
 
 

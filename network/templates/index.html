@@ -129,6 +129,15 @@
                                 </blockquote>
                             </div>
                         </a>
+                        {% empty %}
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <blockquote class="blockquote">
+                                <p class="mb-0">No Discussion Yet...</p>
+                                <footer class="blockquote-footer">Message from
+                                    <cite title="Source Title">The Admin</cite>
+                                </footer>
+                            </blockquote>
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
