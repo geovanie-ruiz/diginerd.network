@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     # POST paths
+    path('filter/', views.card_filter, name='card_filter'),
     path('search/', views.card_search, name='card_search'),
     path('random/', views.get_random_card, name='random'),
 

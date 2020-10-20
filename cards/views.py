@@ -63,6 +63,10 @@ def card_search(request):
     return redirect('filtered_list', request.POST.get('term'))
 
 
+def card_filter(request):
+    return redirect('cards')
+
+
 class CardsIndexView(TemplateView):
     template_name = 'card_index.html'
 

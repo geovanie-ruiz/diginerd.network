@@ -1,8 +1,8 @@
 <header class="bg-primary text-white text-center">
     <div class="container d-flex justify-content-between p-3">
-        <form class="form-inline" role="form" method="post" action="{% url 'card_search' %}">
-            {% csrf_token %}
-            <div class="form-group row justify-content-start">
+        <div class="form-group row justify-content-start mb-0">
+            <form class="form-inline" role="form" method="post" action="{% url 'card_search' %}">
+                {% csrf_token %}
                 <div class="col-xs-8 mr-2">
                     <div class="ui-widget">
                         <input type="text" class="form-control mb-2 w-100" id="cardSearch" placeholder="Search Digimon"
@@ -14,33 +14,145 @@
                         <i class="fas fa-search"></i>&nbsp;Search
                     </button>
                 </div>
-                <div class="col-xs-2">
-                    <button type="button" class="btn btn-secondary mb-2" data-toggle="modal"
-                        data-target="#filterModal">
-                        <i class="fas fa-filter"></i>
-                    </button>
-                </div>
-                <div class="modal fade" id="filterModal" tabindex="-1" role="dialog"
-                    aria-labelledby="filterModalTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true"><i class="far fa-times-circle"></i></span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">Apply Filter</button>
-                            </div>
+            </form>
+            <div class="col-xs-2">
+                <button type="button" class="btn btn-secondary mb-2" data-toggle="modal" data-target="#filterModal">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </div>
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="filterForm">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title" id="filterModalTitle">Filters</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fas fa-times text-secondary"></i></span>
+                            </button>
                         </div>
+                        <form role="form" method="post" action="{% url 'card_filter' %}">
+                            {% csrf_token %}
+                            <div class="modal-body bg-secondary py-1">
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>Card Colors</h5>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="btn btn-red">
+                                                    <input onchange="toggleButton(this)" id="red" type="checkbox"
+                                                        class="custom-control-input" autocomplete="off"> Red
+                                                </label>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="btn btn-blue">
+                                                    <input onchange="toggleButton(this)" id="blue" type="checkbox"
+                                                        class="custom-control-input" autocomplete="off"> Blue
+                                                </label>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="btn btn-yellow">
+                                                    <input onchange="toggleButton(this)" id="yellow" type="checkbox"
+                                                        class="custom-control-input" autocomplete="off"> Yellow
+                                                </label>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="btn btn-green">
+                                                    <input onchange="toggleButton(this)" id="green" type="checkbox"
+                                                        class="custom-control-input" autocomplete="off"> Green
+                                                </label>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="btn btn-purple">
+                                                    <input onchange="toggleButton(this)" id="purple" type="checkbox"
+                                                        class="custom-control-input" autocomplete="off"> Purple
+                                                </label>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="btn btn-black">
+                                                    <input onchange="toggleButton(this)" id="black" type="checkbox"
+                                                        class="custom-control-input" autocomplete="off"> Black
+                                                </label>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="btn btn-white">
+                                                    <input onchange="toggleButton(this)" id="white" type="checkbox"
+                                                        class="custom-control-input" autocomplete="off"> White
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="includeSource">
+                                                    <label class="custom-control-label" for="includeSource">Multicolor</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row text-left">
+                                            <div class="col-12">
+                                                <h5>Card Types</h5>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="digitama">
+                                                    <label class="custom-control-label" for="digitama">Digitama</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="option">
+                                                    <label class="custom-control-label" for="option">Option</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="digimon">
+                                                    <label class="custom-control-label" for="digimon">Digimon</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="tamer">
+                                                    <label class="custom-control-label" for="tamer">Tamer</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="clearfix w-100" />
+                                <div class="row mb-3">
+                                    <div class="col">Rarity</div>
+                                    <div class="col">Keyword</div>
+                                    <div class="col">Cost</div>
+                                </div>
+                                <hr class="clearfix w-100" />
+                                <div class="row mb-3">
+                                    <div class="col">Effect Type</div>
+                                    <div class="col">Effect Scan</div>
+                                    <div class="col">Digimon Power</div>
+                                </div>
+                                <hr class="clearfix w-100" />
+                                <div class="row mb-3">
+                                    <div class="col">Level</div>
+                                    <div class="col">Stage</div>
+                                    <div class="col">Flavor Type</div>
+                                    <div class="col">Attribute</div>
+                                </div>
+                            </div>
+                            <div class="modal-footer bg-secondary">
+                                <button type="submit" class="btn btn-primary">Apply Filter</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+
         <div class="row text-center">
             <div class="col-xs-3 my-auto"><a href="{% url 'sets' %}" class="text-secondary">Sets</a></div>
             <div class="col-xs-1 my-auto mx-1"><span class="text-secondary">&middot;</span></div>
@@ -50,3 +162,10 @@
         </div>
     </div>
 </header>
+
+<script>
+    // Pretty buttons
+    function toggleButton(cb) {
+        cb.parentElement.className = cb.checked ? `btn btn-${cb.id} active` : `btn btn-${cb.id}`;
+    };
+</script>
