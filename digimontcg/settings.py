@@ -84,6 +84,9 @@ WSGI_APPLICATION = 'digimontcg.wsgi.application'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+# One Day: 24 hours * 60 minutes * 60 seconds
+SESSION_COOKIE_AGE = 24 * 60 * 60
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

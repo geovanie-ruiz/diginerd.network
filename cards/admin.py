@@ -4,7 +4,7 @@ from django.db.models import ImageField
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
-from .models import (Card, CardArt, CardEffect, CardKeyword, DivivolveCost,
+from .models import (Card, CardArt, CardEffect, CardKeyword, DigivolveCost,
                      ReleaseSet)
 
 
@@ -39,8 +39,8 @@ class CardArtInLine(admin.StackedInline):
         ImageField: {'widget': AdminImageWidget}
     }
 
-class DivivolveCostInLine(admin.TabularInline):
-    model = DivivolveCost
+class DigivolveCostInLine(admin.TabularInline):
+    model = DigivolveCost
     extra = 0
 
 @admin.register(ReleaseSet)
@@ -65,4 +65,4 @@ class CardAdmin(admin.ModelAdmin):
         ('Flavor',          {'fields': ['flavor_type', 'flavor_attribute']}),
         ('Discussion',      {'fields': ['content']}),
     ]
-    inlines = [DivivolveCostInLine, CardArtInLine, CardEffectInline]
+    inlines = [DigivolveCostInLine, CardArtInLine, CardEffectInline]

@@ -9,7 +9,7 @@
             </div>
             {% if total > page_length %}
             <a type="button" class="btn btn-secondary" id="loadContent" href="javascript:void(0);" data-container=""
-                data-page="2" data-type=2>Load Cards</a>
+                data-page="2" data-type=2 data-term="{{ term }}" data-filtered="{{ filtered }}">Load Cards</a>
             {% endif %}
         </div>
     </div>

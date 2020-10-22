@@ -29,6 +29,8 @@
     var link = $(this);
     var page = link.data('page');
     var container = link.data('container');
+    var term = link.data('term');
+    var filtered = Boolean(link.data('filtered'));
     var content;
 
     switch (link.data('type')) {
@@ -49,7 +51,9 @@
       data: {
         'page': page,
         'container': container,
-        'csrfmiddlewaretoken': window.CSRF_TOKEN
+        'csrfmiddlewaretoken': window.CSRF_TOKEN,
+        'term': term,
+        'filtered': filtered
       },
       success: function (data) {
         if (data.has_next) {

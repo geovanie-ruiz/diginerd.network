@@ -42,7 +42,8 @@
             <div id="comments">{% include 'comments.html' %}</div>
             {% if total > page_length %}
             <a type="button" class="btn btn-secondary" id="loadContent" href="javascript:void(0);"
-                data-container="{{ object.pk }}" data-page="2" data-type=1>Load Comments</a>
+                data-container="{{ object.pk }}" data-page="2" data-type=1 data-term="" data-filtered="">Load
+                Comments</a>
             {% endif %}
         </div>
     </div>

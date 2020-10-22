@@ -39,55 +39,24 @@
                                             <div class="col-12">
                                                 <h5>Card Colors</h5>
                                             </div>
+                                            {% for color in filters.colors %}
                                             <div class="col-4">
-                                                <label class="btn btn-red">
-                                                    <input onchange="toggleButton(this)" id="red" type="checkbox"
-                                                        class="custom-control-input" autocomplete="off"> Red
+                                                <label class="btn btn-{{ color.tag }}">
+                                                    <input onchange="toggleButton(this)" id="{{ color.tag }}"
+                                                        type="checkbox" class="custom-control-input" autocomplete="off"
+                                                        name="colors[{{ forloop.counter0 }}]">
+                                                    {{ color.color }}
                                                 </label>
                                             </div>
-                                            <div class="col-4">
-                                                <label class="btn btn-blue">
-                                                    <input onchange="toggleButton(this)" id="blue" type="checkbox"
-                                                        class="custom-control-input" autocomplete="off"> Blue
-                                                </label>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="btn btn-yellow">
-                                                    <input onchange="toggleButton(this)" id="yellow" type="checkbox"
-                                                        class="custom-control-input" autocomplete="off"> Yellow
-                                                </label>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="btn btn-green">
-                                                    <input onchange="toggleButton(this)" id="green" type="checkbox"
-                                                        class="custom-control-input" autocomplete="off"> Green
-                                                </label>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="btn btn-purple">
-                                                    <input onchange="toggleButton(this)" id="purple" type="checkbox"
-                                                        class="custom-control-input" autocomplete="off"> Purple
-                                                </label>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="btn btn-black">
-                                                    <input onchange="toggleButton(this)" id="black" type="checkbox"
-                                                        class="custom-control-input" autocomplete="off"> Black
-                                                </label>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="btn btn-white">
-                                                    <input onchange="toggleButton(this)" id="white" type="checkbox"
-                                                        class="custom-control-input" autocomplete="off"> White
-                                                </label>
-                                            </div>
+                                            {% endfor %}
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="custom-control custom-switch">
                                                     <input type="checkbox" class="custom-control-input"
-                                                        id="includeSource">
-                                                    <label class="custom-control-label" for="includeSource">Multicolor</label>
+                                                        id="includeSource" name="includeSource">
+                                                    <label class="custom-control-label"
+                                                        for="includeSource">Multicolor</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -97,51 +66,141 @@
                                             <div class="col-12">
                                                 <h5>Card Types</h5>
                                             </div>
+                                            {% for type in filters.card_types %}
                                             <div class="col-6">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="digitama">
-                                                    <label class="custom-control-label" for="digitama">Digitama</label>
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="{{ type.tag }}" name="ctype[{{ forloop.counter0 }}]">
+                                                    <label class="custom-control-label"
+                                                        for="{{ type.tag }}">{{ type.type }}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="option">
-                                                    <label class="custom-control-label" for="option">Option</label>
-                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="clearfix w-100" />
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label for="raritySelect">
+                                            <h5>Rarities</h5>
+                                        </label>
+                                        <select multiple class="form-control" id="raritySelect" name="raritySelect">
+                                            {% for rarity in filters.rarities %}
+                                            <option value="{{ forloop.counter0 }}">{{ rarity.rarity }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="keywordSelect">
+                                            <h5>Keyword</h5>
+                                        </label>
+                                        <select multiple class="form-control" id="keywordSelect" name="keywordSelect">
+                                            {% for keyword in filters.keywords %}
+                                            <option value="{{ forloop.counter }}">{{ keyword.keyword }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>Play Cost</h5>
                                             </div>
                                             <div class="col-6">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="digimon">
-                                                    <label class="custom-control-label" for="digimon">Digimon</label>
-                                                </div>
+                                                <label for="playCostFrom">From</label>
+                                                <input type="number" class="form-control" id="playCostFrom"
+                                                    name="playCostFrom" placeholder="#" min="0" max="20">
                                             </div>
                                             <div class="col-6">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="tamer">
-                                                    <label class="custom-control-label" for="tamer">Tamer</label>
-                                                </div>
+                                                <label for="playCostTo">To</label>
+                                                <input type="number" class="form-control" id="playCostTo"
+                                                    name="playCostTo" placeholder="#" min="0" max="20">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <hr class="clearfix w-100" />
                                 <div class="row mb-3">
-                                    <div class="col">Rarity</div>
-                                    <div class="col">Keyword</div>
-                                    <div class="col">Cost</div>
+                                    <div class="col">
+                                        <label for="effectTypeSelect">
+                                            <h5>Effect Type</h5>
+                                        </label>
+                                        <select multiple class="form-control" id="effectTypeSelect"
+                                            name="effectTypeSelect">
+                                            {% for type in filters.effect_types %}
+                                            <option value="{{ forloop.counter0 }}">{{ type.type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="effectScan">
+                                            <h5>
+                                                Effect Scan
+                                            </h5>
+                                        </label>
+                                        <input type="text" class="form-control" id="effectScan" name="effectScan"
+                                            placeholder="Search Effect Text">
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>Digimon Power</h5>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="dpFrom">From</label>
+                                                <input type="number" class="form-control" id="dpFrom" placeholder="#"
+                                                    name="dpFrom" min="0" max="99000" step="1000">
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="dpTo">To</label>
+                                                <input type="number" class="form-control" id="dpTo" placeholder="#"
+                                                    name="dpTo" min="0" max="99000" step="1000">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr class="clearfix w-100" />
                                 <div class="row mb-3">
-                                    <div class="col">Effect Type</div>
-                                    <div class="col">Effect Scan</div>
-                                    <div class="col">Digimon Power</div>
-                                </div>
-                                <hr class="clearfix w-100" />
-                                <div class="row mb-3">
-                                    <div class="col">Level</div>
-                                    <div class="col">Stage</div>
-                                    <div class="col">Flavor Type</div>
-                                    <div class="col">Attribute</div>
+                                    <div class="col">
+                                        <label for="levelSelect">
+                                            <h5>Digimon Level</h5>
+                                        </label>
+                                        <select multiple class="form-control" id="levelSelect" name="levelSelect">
+                                            {% for level in filters.levels %}
+                                            <option value="{{ forloop.counter0 }}">{{ level }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="stageSelect">
+                                            <h5>Digimon Stage</h5>
+                                        </label>
+                                        <select multiple class="form-control" id="stageSelect" name="stageSelect">
+                                            {% for stage in filters.stages %}
+                                            <option value="{{ forloop.counter0 }}">{{ stage.stage }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="digimonTypeSelect">
+                                            <h5>Digimon Type</h5>
+                                        </label>
+                                        <select multiple class="form-control" id="digimonTypeSelect" name="digimonTypeSelect">
+                                            {% for type in filters.digimon_types %}
+                                            <option value="{{ type }}">{{ type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="attributeSelect">
+                                            <h5>Attribute</h5>
+                                        </label>
+                                        <select multiple class="form-control" id="attributeSelect" name="attributeSelect">
+                                            {% for attribute in filters.attributes %}
+                                            <option value="{{ attribute }}">{{ attribute }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer bg-secondary">
