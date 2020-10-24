@@ -20,6 +20,7 @@
                         <div class="form-group">
                             <div class="h5 text-left text-white m-1">Posting reply as {{ user }}</div>
                             <textarea class="form-control" rows="5" id="summernote" name="editordata"></textarea>
+                            <input type="hidden" name="url" value="{{ redirect_url }}">
                             <input type="hidden" name="slug" value="{{ object.slug }}">
                             <div class="text-right">
                                 <button type="submit" class="btn btn-secondary m-2">

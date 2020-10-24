@@ -7,12 +7,14 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.views.generic import DetailView, ListView, TemplateView
+from network.models import Comment
+from network.views import PAGE_LENGTH, format_comment_age
 
 from cards.models import (MAX_LEVEL, Card, CardColor, CardEffect, CardKeyword,
                           CardRarity, CardType, DigimonStage, EffectType,
                           ReleaseSet)
 
-PAGE_LENGTH = 8
+LIST_LENGTH = 8
 AUTOCOMPLETE_LIMIT = 10
 FILTER_TERM = 'filtered-list'
 
@@ -198,7 +200,7 @@ def lazy_load_cards(request):
             comment_count=Coalesce(Count('comments'), 0)
         ).order_by(F('last_activity').desc(nulls_last=True))
 
-    paginator = Paginator(cards, PAGE_LENGTH)
+    paginator = Paginator(cards, LIST_LENGTH)
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:
@@ -268,7 +270,7 @@ class CardsIndexView(TemplateView):
             last_activity=Max('comments__created_date'),
             comment_count=Coalesce(Count('comments'), 0)
         ).order_by(F('last_activity').desc(nulls_last=True))
-        card_list = cards.all()[:PAGE_LENGTH]
+        card_list = cards.all()[:LIST_LENGTH]
 
         # Session (reset breadcrumbs)
         filters = self.request.session.get('filters', {})
@@ -283,7 +285,7 @@ class CardsIndexView(TemplateView):
             {
                 'list_name': 'Cards',
                 'total': cards.count,
-                'page_length': PAGE_LENGTH,
+                'page_length': LIST_LENGTH,
                 'cards': card_list,
                 'breadcrumbs': self.request.session.get('breadcrumbs'),
                 'filters': self.request.session.get('filters')
@@ -307,7 +309,7 @@ class FilteredListView(TemplateView):
             breadcrumb = 'Search Result'
             cards = get_searched_cards(term)
 
-        card_list = cards.all()[:PAGE_LENGTH]
+        card_list = cards.all()[:LIST_LENGTH]
 
         # Session
         filters = self.request.session.get('filters', {})
@@ -336,7 +338,7 @@ class FilteredListView(TemplateView):
             {
                 'list_name': name,
                 'total': cards.count,
-                'page_length': PAGE_LENGTH,
+                'page_length': LIST_LENGTH,
                 'cards': card_list,
                 'breadcrumbs': self.request.session.get('breadcrumbs'),
                 'filters': self.request.session.get('filters'),
@@ -441,7 +443,35 @@ class CardDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         # Data
-        # Comments
+        idx = 0
+        effects = [
+            {
+                'label': EffectType.MAIN.label,
+                'effects': []
+            },
+            {
+                'label': EffectType.SOURCE.label,
+                'effects': []
+            },
+            {
+                'label': EffectType.SECURITY.label,
+                'effects': []
+            }
+        ]
+        for idx, effect in enumerate(CardEffect.objects.filter(card=self.object)):
+            if effect.effect_text:
+                text = effect.effect_text
+            else:
+                keyword = effect.card_keyword
+                text = f'{keyword.name} ({keyword.reminder_text})'
+            effects[effect.effect_type.value]['effects'].append(text)
+        else:
+            if idx == 0:
+                effects = []
+        comments = Comment.objects.filter(
+            post=self.object).order_by('-created_date')
+        comment_list = comments.all()[:PAGE_LENGTH]
+        format_comment_age(comment_list)
 
         # Session
         filters = self.request.session.get('filters', {})
@@ -475,7 +505,12 @@ class CardDetailView(DetailView):
         context.update(
             {
                 'breadcrumbs': self.request.session.get('breadcrumbs'),
-                'filters': self.request.session.get('filters')
+                'filters': self.request.session.get('filters'),
+                'card_effects': effects,
+                'total': comments.count,
+                'page_length': PAGE_LENGTH,
+                'comments': comment_list,
+                'redirect_url': 'card_view'
             }
         )
         return context

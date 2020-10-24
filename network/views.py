@@ -47,7 +47,15 @@ def format_card_discussions(discussions):
 
 def store_comment(request):
     if request.method == 'POST':
-        print(request.POST)
+        url = request.POST.get('url')
+        slug = request.POST.get('slug')
+
+        if url == 'card_view':
+            card = Card.objects.get(slug=slug)
+            url = reverse('card_view', args=(card.number,))
+        else:
+            url = reverse('article', args=(slug,))
+
         post = Article.objects.get(slug=request.POST.get('slug'))
         c = Comment(
             text=request.POST.get('editordata'),
@@ -55,7 +63,6 @@ def store_comment(request):
             post=post
         )
         c.save()
-        url = reverse('article', args=(request.POST.get('slug'),))
         return HttpResponseRedirect('{}#commentSection'.format(url))
 
 
@@ -172,14 +179,24 @@ class ArticleDetailView(DetailView):
     template_name = 'article_view.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        # Data
         comments = Comment.objects.filter(
             post=self.object).order_by('-created_date')
-        context['total'] = comments.count
-        context['page_length'] = PAGE_LENGTH
         comment_list = comments.all()[:PAGE_LENGTH]
         format_comment_age(comment_list)
-        context['comments'] = comment_list
+
+        # Session
+
+        # Context
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'total': comments.count,
+                'page_length': PAGE_LENGTH,
+                'comments': comment_list,
+                'redirect_url': 'article'
+            }
+        )
         return context
 
 

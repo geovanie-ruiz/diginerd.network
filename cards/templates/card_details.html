@@ -5,10 +5,132 @@
 <section class="page-section" id="details">
     <div class="container">
         {% include 'breadcrumbs.html' %}
-        <div class="text-center">
-            <h2 class="page-section-heading text-secondary d-inline-block">{{ object }}</h2>
+        <div class="details {{ object.color|lower }}-border shadow">
+            <div class="details-header {{ object.color|lower }}-header">
+                <div class="title">{{ object.name }}</div>
+                <div class="subtitle">{{ object.number }}</div>
+            </div>
+            <div class="details-body">
+                <div class="row mx-auto">
+                    <div class="col col-md-12 col-lg-6 p-2">
+                        {% if object.art.all.count > 1 %}
+                        <ul class="nav nav-pills" id="art-selector" role="tablist">
+                            {% for art in object.art.all %}
+                            <li class="nav-item {% if forloop.first %}active{% endif %}">
+                                <a class="nav-link {% if forloop.first %}active{% endif %}"
+                                    href="#{{object.number}}-{{ forloop.counter }}" role="tab" data-toggle="tab"
+                                    aria-controls="{{object.number}}-{{ forloop.counter }}"
+                                    aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                                    {{ art.artist }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        {% if object.art.all.count > 1 %}
+                        <div class="tab-content">
+                            {% for art in object.art.all %}
+                            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+                                id="{{object.number}}-{{ forloop.counter }}" role="tabpanel"
+                                aria-labelledby="{{object.number}}-{{ forloop.counter }}-tab">
+                                <img src="{{ MEDIA_PREFIX}}{{ art.card_art }}" class="img-fluid img-responsive" />
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <img src="{{ MEDIA_PREFIX}}{{ object.art.all.first.card_art }}"
+                            class="img-fluid img-responsive" />
+                        {% endif %}
+                    </div>
+                    <div class="col col-md-12 col-lg-6 p-2">
+                        <ul class="list-group">
+                            <li class="list-group-item rounded-0 d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Set</div>
+                                <div>{{ object.release_set }}</div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Rarity</div>
+                                <div>{{ object.rarity }}</div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Color</div>
+                                <div>{{ object.color }}</div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Card Type</div>
+                                <div>{{ object.card_type }}</div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Play Cost</div>
+                                <div>{{ object.play_cost }} memory</div>
+                            </li>
+
+                            {% for evo in object.evo.all %}
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">
+                                    Evolution Cost
+                                    {% if object.evo.all.count > 1 %}{{ forloop.counter }}{% endif %}
+                                </div>                                
+                                <div>
+                                    {{ evo.cost }} memory from 
+                                    {% if object.evo.all.count > 1 %}{{ evo.color.label }}{% endif %}
+                                    Lv. {{ evo.level }}
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Level</div>
+                                <div>{{ object.level }}</div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Digimon Power</div>
+                                <div>{{ object.digimon_power }}</div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Stage</div>
+                                <div>{{ object.stage.label }}</div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Type</div>
+                                <div>{{ object.flavor_type }}</div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-start p-0">
+                                <div class="detail-name px-1 mr-1">Attribute</div>
+                                <div>{{ object.flavor_attribute }}</div>
+                            </li>
+                            {% if object.content != 'none' %}
+                            <li class="list-group-item p-0">
+                                <div class="detail-name px-1 w-100">Notes</div>
+                                <div class="px-1 w-100">{{ object.content }}</div>
+                            </li>
+                            {% endif %}
+
+                            {% if card_effects %}
+                            <li class="list-group-item p-0">
+                                <div class="detail-name px-1 w-100">Abilities</div>
+                                {% for effect in card_effects %}
+                                <div>
+                                    {% if effect.effects %}
+                                    <div class="effect-type p-1 m-1">{{ effect.label }}</div>
+                                    {% endif %}
+                                    {% for text in effect.effects %}
+                                        <div class="p-1 m-1">{{ text }}</div>
+                                    {% endfor %}
+                                </div>
+                                {% endfor %}
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    </div>
 </section>
+
+{% include 'comment_view.html' %}
 
 {% endblock %}

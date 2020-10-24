@@ -33,8 +33,8 @@
                         <form role="form" method="post" action="{% url 'card_filter' %}">
                             {% csrf_token %}
                             <div class="modal-body bg-secondary py-1">
-                                <div class="row mb-3">
-                                    <div class="col-6">
+                                <div class="row mx-auto mb-3">
+                                    <div class="col col-md-12 col-lg-6">
                                         <div class="row">
                                             <div class="col-12">
                                                 <h5>Card Colors</h5>
@@ -61,7 +61,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <hr class="clearfix w-100 d-lg-none" />
+                                    <div class="col col-md-12 col-lg-6">
                                         <div class="row text-left">
                                             <div class="col-12">
                                                 <h5>Card Types</h5>
@@ -81,7 +82,7 @@
                                 </div>
                                 <hr class="clearfix w-100" />
                                 <div class="row mb-3">
-                                    <div class="col">
+                                    <div class="col col-md-6 col-lg-4">
                                         <label for="raritySelect">
                                             <h5>Rarities</h5>
                                         </label>
@@ -91,7 +92,7 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <div class="col col-md-6 col-lg-4">
                                         <label for="keywordSelect">
                                             <h5>Keyword</h5>
                                         </label>
@@ -101,11 +102,10 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <hr class="clearfix w-100 d-lg-none" />
+                                    <div class="col col-md-12 col-lg-4">
+                                        <h5>Play Cost</h5>
                                         <div class="row">
-                                            <div class="col-12">
-                                                <h5>Play Cost</h5>
-                                            </div>
                                             <div class="col-6">
                                                 <label for="playCostFrom">From</label>
                                                 <input type="number" class="form-control" id="playCostFrom"
@@ -121,7 +121,7 @@
                                 </div>
                                 <hr class="clearfix w-100" />
                                 <div class="row mb-3">
-                                    <div class="col">
+                                    <div class="col col-md-4">
                                         <label for="effectTypeSelect">
                                             <h5>Effect Type</h5>
                                         </label>
@@ -132,7 +132,7 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <div class="col col-md-8 col-lg-4">
                                         <label for="effectScan">
                                             <h5>
                                                 Effect Scan
@@ -141,11 +141,10 @@
                                         <input type="text" class="form-control" id="effectScan" name="effectScan"
                                             placeholder="Search Effect Text">
                                     </div>
-                                    <div class="col">
+                                    <hr class="clearfix w-100 d-lg-none" />
+                                    <div class="col col-md-12 col-lg-4">
+                                        <h5>Digimon Power</h5>
                                         <div class="row">
-                                            <div class="col-12">
-                                                <h5>Digimon Power</h5>
-                                            </div>
                                             <div class="col-6">
                                                 <label for="dpFrom">From</label>
                                                 <input type="number" class="form-control" id="dpFrom" placeholder="#"
@@ -161,7 +160,7 @@
                                 </div>
                                 <hr class="clearfix w-100" />
                                 <div class="row mb-3">
-                                    <div class="col">
+                                    <div class="col col-md-6 col-lg-3">
                                         <label for="levelSelect">
                                             <h5>Digimon Level</h5>
                                         </label>
@@ -171,7 +170,7 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <div class="col col-md-6 col-lg-3">
                                         <label for="stageSelect">
                                             <h5>Digimon Stage</h5>
                                         </label>
@@ -181,7 +180,8 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <hr class="clearfix w-100 d-lg-none" />
+                                    <div class="col col-md-6 col-lg-3">
                                         <label for="digimonTypeSelect">
                                             <h5>Digimon Type</h5>
                                         </label>
@@ -191,7 +191,7 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <div class="col col-md-6 col-lg-3">
                                         <label for="attributeSelect">
                                             <h5>Attribute</h5>
                                         </label>

@@ -7,13 +7,13 @@ MAX_LEVEL = 7
 
 
 class CardType(enum.Enum):
-    DIGITAMA = 0
+    DIGIEGG = 0
     DIGIMON = 1
     OPTION = 2
     TAMER = 3
 
     __labels__ = {
-        DIGITAMA: 'Digitama',
+        DIGIEGG: 'Digi-egg',
         DIGIMON: 'Digimon',
         OPTION: 'Option',
         TAMER: 'Tamer'
@@ -133,6 +133,8 @@ class Card(Article):
         return f'{self.number}: {self.name}'
 
     def save(self, *args, **kwargs):
+        if len(self.content) == 0:
+            self.content = 'none'
         self.title = str(self)
         self.article_type = ArticleType.CARD
         super().save(*args, **kwargs)
@@ -140,7 +142,8 @@ class Card(Article):
 
 class DigivolveCost(models.Model):
     color = enum.EnumField(CardColor)
-    cost = models.IntegerField(default=0)
+    cost = models.IntegerField()
+    level = models.IntegerField()
     card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='evo')
 
 

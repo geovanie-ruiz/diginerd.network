@@ -47,7 +47,7 @@ class Article(models.Model):
     series = models.ForeignKey(Series, on_delete=models.SET_NULL, related_name='series_articles', null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='network_articles', null=True, blank=True)
     hero_img = models.ImageField(upload_to='art/hero/articles', null=True, blank=True)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     published_on = models.DateTimeField(null=True, blank=True)
