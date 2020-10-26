@@ -113,7 +113,8 @@
                 <div class="container">
                     <div class="list-group shadow-lg p-0 rounded">
                         {% for discussion in discussions %}
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <a href="{% url 'card_view' discussion.number %}#commentSection"
+                            class="list-group-item list-group-item-action flex-column align-items-start">
                             <img class="img-float img-responsive card-thumbnail"
                                 src="{{ MEDIA_PREFIX}}{{ discussion.art.all.first.card_art }}" alt="" />
                             <div class="d-flex justify-content-between">
