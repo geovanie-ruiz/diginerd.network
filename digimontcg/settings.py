@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -152,6 +155,13 @@ STATICFILES_DIRS = [
     Path(BASE_DIR, 'staticfiles')
 ]
 
+# Sentry
+# https://docs.sentry.io/platforms/python/guides/django/
+sentry_sdk.init(
+    dsn=os.environ.get('HADES_SENTRY_DSN'),
+    integrations=[DjangoIntegration()]
+)
+
 # Twilio SendGrid
 # https://www.twilio.com/blog/using-twilio-sendgrid-send-emails-python-django
 
@@ -163,10 +173,9 @@ EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 
 # Summernote
-#
+# https://github.com/summernote/django-summernote
 
 SUMMERNOTE_THEME = 'bs4'
-
 SUMMERNOTE_CONFIG = {
     # Using SummernoteWidget - iframe mode, default
     'iframe': True,
