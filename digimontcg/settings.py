@@ -155,6 +155,10 @@ STATICFILES_DIRS = [
     Path(BASE_DIR, 'staticfiles')
 ]
 
+# reCAPTCHA
+# https://simpleisbetterthancomplex.com/tutorial/2017/02/21/how-to-add-recaptcha-to-django-site.html
+GOOGLE_RECAPTCHA_SECRET_KEY = os.environ.get('GOOGLE_RECAPTCHA_SECRET_KEY')
+
 # Sentry
 # https://docs.sentry.io/platforms/python/guides/django/
 sentry_sdk.init(
@@ -223,5 +227,5 @@ SUMMERNOTE_CONFIG = {
     },
 
     # Require users to be authenticated for uploading attachments.
-    'attachment_require_authentication': True,
+    'disable_attachment': True,
 }

@@ -10,18 +10,49 @@
         ['list', ['ul', 'ol']],
       ],
       placeholder: 'What are your thoughts?',
+      callbacks: {
+        onKeydown: function (e) {
+          var t = e.currentTarget.innerText;
+          if (t.trim().length >= 5000) {
+            //delete keys, arrow keys, copy, cut, select all
+            if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey) && !(e.keyCode == 65 && e.ctrlKey))
+              e.preventDefault();
+          }
+        },
+        onKeyup: function (e) {
+          var t = e.currentTarget.innerText;
+          var textLen = t.trim().length;
+          if (textLen >= 4950) {
+            $('.note-status-output').html(
+              '<span class="text-danger">' + textLen + ' out of 5000 characters.' + '</span>'
+            );
+          } else if (textLen >= 4000) {
+            $('.note-status-output').html(
+              '<span class="text-warning">' + textLen + ' out of 5000 characters.' + '</span>'
+            );
+          } else if (textLen <= 30) {
+            $('.note-status-output').html('');
+          }
+        },
+        onPaste: function (e) {
+          var t = e.currentTarget.innerText;
+          var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+          bufferText = bufferText.replace(/\r?\n/g, '<br>');
+          e.preventDefault();
+          var maxPaste = bufferText.length;
+          if (t.trim().length + maxPaste > 5000) {
+            maxPaste = 5000 - t.trim().length;
+          }
+          document.execCommand('insertText', false, bufferText.substring(0, maxPaste));
+          if ((t.trim().length + maxPaste) >= 4000) {
+            $('.note-status-output').html((t.trim().length + maxPaste) + ' out of 5000 characters');
+          }
+        }
+      },
       tabsize: 2,
       height: 300,
       disableDragAndDrop: true
     });
-  });
-
-  // Enforce plaintext paste
-  $('#summernote').on('summernote.paste', function (e, ne) {
-    var bufferText = ((ne.originalEvent || ne).clipboardData || window.clipboardData).getData('Text');
-    ne.preventDefault();
-    bufferText = bufferText.replace(/\r?\n/g, '<br>');
-    document.execCommand('insertText', false, bufferText);
   });
 
   // Lazy loading content
@@ -71,7 +102,21 @@
   document.addEventListener('invalid', (function () {
     return function (e) {
       e.preventDefault();
-      document.getElementById("cardSearch").focus();
+      document.getElementById(e.target.id).focus();
+    };
+  })(), true);
+
+  document.addEventListener('submit', (function () {
+    return function (e) {
+      if (e.submitter.id == 'submitComment') {
+        var cLen = $('.note-editable').text().length;
+        if (cLen < 30) {
+          e.preventDefault();
+          $('.note-status-output').html(
+            '<span class="text-danger">' + cLen + ' out of 30 character minimum.' + '</span>'
+          );
+        }
+      };
     };
   })(), true);
 

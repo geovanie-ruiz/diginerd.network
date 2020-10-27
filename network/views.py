@@ -1,6 +1,9 @@
+from time import time
+
 import timeago
+from cards.models import Card
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Count, Q, Max, F
+from django.db.models import Count, F, Max
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.template import loader
@@ -8,14 +11,11 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import strip_tags
 from django.views.generic import DetailView, ListView, TemplateView
-from django.views.generic.edit import FormView
 
-from network.forms.forms import ShopForm
-from network.models import Article, ArticleType, Comment, Series, Shop, Status
-from cards.models import Card
-
+from network.models import Article, ArticleType, Comment, Series, Status
 
 PAGE_LENGTH = 5
+COMMENT_THROTTLE_SECONDS = 10
 
 
 def format_article_summaries(articles, length=''):
@@ -47,22 +47,35 @@ def format_card_discussions(discussions):
 
 def store_comment(request):
     if request.method == 'POST':
+        # Data
         url = request.POST.get('url')
         slug = request.POST.get('slug')
+        post = Article.objects.get(slug=slug)
 
         if url == 'card_view':
             card = Card.objects.get(slug=slug)
-            url = reverse('card_view', args=(card.number,))
+            url = reverse(url, args=(card.number,))
         else:
-            url = reverse('article', args=(slug,))
+            url = reverse(url, args=(slug,))
 
-        post = Article.objects.get(slug=request.POST.get('slug'))
+        # Session
+        last_comment = request.session.get('last_comment', None)
+        if last_comment:
+            seconds_ago = time() - last_comment
+            if seconds_ago < COMMENT_THROTTLE_SECONDS:
+                return HttpResponseRedirect('{}#commentSection'.format(url))
+
+        request.session['last_comment'] = time()
+        request.session.modified = True
+
+        # Update
         c = Comment(
             text=request.POST.get('editordata'),
             author=request.user,
             post=post
         )
         c.save()
+
         return HttpResponseRedirect('{}#commentSection'.format(url))
 
 
