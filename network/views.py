@@ -50,6 +50,8 @@ def store_comment(request):
         # Data
         url = request.POST.get('url')
         slug = request.POST.get('slug')
+        comment_edit = request.POST.get('commentId')
+        comment_text = request.POST.get('editordata')
         post = Article.objects.get(slug=slug)
 
         if url == 'card_view':
@@ -69,12 +71,12 @@ def store_comment(request):
         request.session.modified = True
 
         # Update
-        c = Comment(
-            text=request.POST.get('editordata'),
-            author=request.user,
-            post=post
-        )
-        c.save()
+        if comment_edit:
+            c = Comment.objects.filter(
+                pk=comment_edit).update(text=comment_text)
+        else:
+            c = Comment(text=comment_text, author=request.user, post=post)
+            c.save()
 
         return HttpResponseRedirect('{}#commentSection'.format(url))
 
@@ -109,6 +111,7 @@ def lazy_load_articles(request):
 def lazy_load_comments(request):
     pk = request.POST.get('container')
     page = request.POST.get('page')
+    url = request.POST.get('redirect_url')
 
     article = Article.objects.get(pk=pk)
     comments = Comment.objects.filter(post=article)
@@ -125,7 +128,12 @@ def lazy_load_comments(request):
     format_comment_age(comments)
     output_data = {
         'contents_html': loader.render_to_string(
-            'comments.html', {'comments': comments}
+            'comments.html', {
+                'comments': comments,
+                'user': request.user,
+                'object': article,
+                'redirect_url': url
+            }
         ),
         'has_next': comments.has_next()
     }

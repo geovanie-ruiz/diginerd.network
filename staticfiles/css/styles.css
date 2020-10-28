@@ -7538,9 +7538,12 @@ form .row:first-child .floating-label-form-group {
     margin-right: 1rem; }
   .comment .author {
     display: flex;
+    text-align: left;
     align-items: flex-end; }
   .comment ul, ol {
     text-align: left; }
+  .comment .editButton {
+    text-align: center; }
 
 .img-hover-zoom {
   overflow: hidden; }

@@ -1,0 +1,15 @@
+<form id="reply" role="form" method="post" action="{% url 'new_comment' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="h5 text-left text-white m-1">Posting reply as {{ user }}</div>
+        <textarea required minlength="10" class="form-control" rows="5" id="summernote"
+            name="editordata"></textarea>
+        <input type="hidden" name="url" value="{{ redirect_url }}">
+        <input type="hidden" name="slug" value="{{ object.slug }}">
+        <div class="text-right">
+            <button id="submitComment" type="submit" class="btn btn-secondary m-2">
+                <i class="fas fa-reply"></i>&nbsp;Post
+            </button>
+        </div>
+    </div>
+</form>

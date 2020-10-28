@@ -1,6 +1,6 @@
 {% for comment in comments %}
 <div class="card comment" id="comment{{ comment.pk }}">
-    <div class="card-header text-left d-flex">
+    <div class="card-header d-flex justify-content-between">
         <!--<img class="profile-picture" src="https://placehold.it/80x80/163a63" />-->
         <div class="author">
             <div>
@@ -8,10 +8,23 @@
                 <small>{{ comment.age|default:"An age ago" }}</small>
             </div>
         </div>
+        {% if user.is_authenticated %}
+        {% if comment.author == user %}
+        <div class="edit">
+            <button id="edit{{ comment.pk }}" class="btn btn-primary" type="button" data-comment="{{ comment.pk }}">
+                Edit
+            </button>
+            <button id="save{{ comment.pk }}" class="btn btn-primary" disabled type="button" data-comment="{{ comment.pk }}"
+                data-url="{{ redirect_url }}" data-slug="{{ object.slug }}">
+                Save
+            </button>
+        </div>
+        {% endif %}
+        {% endif %}
     </div>
     <div class="scrollbar scrollbar-secondary">
-        <div class="card-body comment-text">
-            {{ comment.text|safe}}
+        <div id="comment{{ comment.pk }}Text" class="card-body comment-text">
+            {{ comment.text|safe }}
         </div>
     </div>
 </div>
