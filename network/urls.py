@@ -36,13 +36,4 @@ urlpatterns = [
     #path('lgs/<int:pk>/', views.ShopDetailView.as_view(), name='lgs_info'),
     #     LGS Entry form
     #path('lgs/new/', views.ShopAddView.as_view(), name='new_lgs'),
-
-    # Hard-coded Pages
-    path('gameplay/', views.GameplayView.as_view(), name='gameplay'),
-    path('rules/', views.RulesView.as_view(), name='rules'),
-    path('colors/', views.ColorsView.as_view(), name='colors'),
-    path('contact/', views.ContactView.as_view(), name='contact'),
-    path('privacy/', views.PrivacyView.as_view(), name='privacy'),
-    path('terms/', views.TermsView.as_view(), name='terms'),
-    path('roadmap/', views.RoadmapView.as_view(), name='roadmap'),
 ]

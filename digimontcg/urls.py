@@ -13,13 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from cards import views as CardViews
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.flatpages import views
 from django.urls import include, path, re_path
 from django.views.static import serve
 from network import views as NetworkViews
-from cards import views as CardViews
 
 urlpatterns = [
     # POST paths
@@ -36,6 +37,16 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('', include('network.urls')),
+
+    # Flatpages
+    path('gameplay/', views.flatpage, {'url': '/gameplay/'}, name='gameplay'),
+    path('rules/', views.flatpage, {'url': '/rules/'}, name='rules'),
+    path('colors/', views.flatpage, {'url': '/colors/'}, name='colors'),
+    path('contact/', views.flatpage, {'url': '/contact/'}, name='contact'),
+    path('privacy/', views.flatpage, {'url': '/privacy/'}, name='privacy'),
+    path('terms/', views.flatpage, {'url': '/terms/'}, name='terms'),
+    path('roadmap/', views.flatpage, {'url': '/roadmap/'}, name='roadmap'),
+    path('api/', views.flatpage, {'url': '/api/'}, name='api'),
 ]
 
 if settings.DEBUG:

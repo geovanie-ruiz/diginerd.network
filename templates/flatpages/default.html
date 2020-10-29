@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Diginerd - {{ flatpage.title }}{% endblock %}
+{% block content %}
+
+<header class="masthead bg-primary text-white text-center">
+    <div class="container expander">
+    </div>
+</header>
+
+<section class="page-section">
+    <div class="container">
+        <div class="text-center">
+            <div class="row mx-auto">
+                <div class="col col-12">
+                    <div class="card article shadow-lg">
+                        <img src="https://placehold.it/1140x768/163a63"
+                            class="card-img img-responsive hero-img" />
+                        <div class="card-img-overlay">
+                            <div class="article-title bg-primary">
+                                <h1 class="article-title-heading text-white text-right px-2 pb-1">
+                                    Default
+                                </h1>
+                                <h3 class="article-title-subheading text-white text-right px-2">
+                                    You've Arrived Here in Error
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-body-thin">
+                            {{ flatpage.content }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
