@@ -1,6 +1,22 @@
 (function ($) {
   "use strict";
 
+  // Summernote minimum length
+  document.addEventListener('submit', (function () {
+    return function (e) {
+      if (e.submitter.id == 'submitComment') {
+        var cLen = $('.note-editable').text().length;
+        if (cLen < 30) {
+          e.preventDefault();
+          $('.note-status-output').html(
+            '<span class="text-danger">' + cLen + ' out of 30 character minimum.' + '</span>'
+          );
+        }
+      };
+    };
+  })(), true);
+
+  // Sumernote in-page edit
   $("#comments").on("click", "button", function (event) {
     event.preventDefault();
     var el = $(this);
@@ -58,11 +74,39 @@
             }
           }
         },
+        hint: {
+          match: /\B@(\w*)$/,
+          cards: function (keyword, callback) {
+            $.ajax({
+              type: 'post',
+              url: '/card-mention/',
+              data: {
+                'term': keyword,
+                'csrfmiddlewaretoken': window.CSRF_TOKEN
+              }
+            }).done(callback);
+          },
+          search: function (keyword, callback) {
+            this.cards(keyword, callback);
+          },
+          template: function (item) {
+            return item.name;
+          },
+          content: function (item) {
+            var node = document.createElement('a');
+            node.append('@' + item.name);
+            node.setAttribute('href', '/cards/card-details/' + item.number);
+            node.setAttribute('class', 'card-popover');
+            node.setAttribute('data-card', item.number);
+            return node;
+          }
+        },
         tabsize: 2,
         height: 150,
         disableDragAndDrop: true,
         focus: true
       });
+      $('#comment' + commentId + 'Text').summernote("removeModule", "linkPopover");
     } else if (btn.id.includes('save')) {
       var markup = $('#comment' + commentId + 'Text').summernote('code');
       $.ajax({
@@ -133,10 +177,38 @@
           }
         }
       },
+      hint: {
+        match: /\B@(\w*)$/,
+        cards: function (keyword, callback) {
+          $.ajax({
+            type: 'post',
+            url: '/card-mention/',
+            data: {
+              'term': keyword,
+              'csrfmiddlewaretoken': window.CSRF_TOKEN
+            }
+          }).done(callback);
+        },
+        search: function (keyword, callback) {
+          this.cards(keyword, callback);
+        },
+        template: function (item) {
+          return item.name;
+        },
+        content: function (item) {
+          var node = document.createElement('a');
+          node.append('@' + item.name);
+          node.setAttribute('href', '/cards/card-details/' + item.number);
+          node.setAttribute('class', 'card-popover');
+          node.setAttribute('data-card', item.number);
+          return node;
+        }
+      },
       tabsize: 2,
       height: 300,
       disableDragAndDrop: true
     });
+    $("#summernote").summernote("removeModule", "linkPopover");
   });
 
   // Lazy loading comments
@@ -166,7 +238,7 @@
       error: function (xhr, status, error) { }
     });
   });
-  
+
   // Lazy loading content
   $('#loadContent').on('click', function () {
     var link = $(this);
@@ -207,25 +279,11 @@
     });
   });
 
-  // Discreet search validation
+  // Discrete search validation
   document.addEventListener('invalid', (function () {
     return function (e) {
       e.preventDefault();
       document.getElementById(e.target.id).focus();
-    };
-  })(), true);
-
-  document.addEventListener('submit', (function () {
-    return function (e) {
-      if (e.submitter.id == 'submitComment') {
-        var cLen = $('.note-editable').text().length;
-        if (cLen < 30) {
-          e.preventDefault();
-          $('.note-status-output').html(
-            '<span class="text-danger">' + cLen + ' out of 30 character minimum.' + '</span>'
-          );
-        }
-      };
     };
   })(), true);
 

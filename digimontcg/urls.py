@@ -27,7 +27,8 @@ urlpatterns = [
     path('load-articles/', NetworkViews.lazy_load_articles, name='lazy_load_articles'),
     path('load-comments/', NetworkViews.lazy_load_comments, name='lazy_load_comments'),
     path('new-comment/', NetworkViews.store_comment, name='new_comment'),
-    path('autocomplete/' , CardViews.card_autocomplete , name='autocomplete'),
+    path('autocomplete/', CardViews.card_autocomplete , name='autocomplete'),
+    path('card-mention/', CardViews.card_mention, name='card_mention'),
 
     # Root paths
     path('cards/', include('cards.urls')),

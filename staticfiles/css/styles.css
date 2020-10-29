@@ -7823,3 +7823,9 @@ form .row:first-child .floating-label-form-group {
   width: 50%;
   border-radius: 0 0.5rem;
   background-color: var(--primary); }
+
+.note-editor .note-editable {
+  text-align: left; }
+
+.card-popover:hover {
+  text-decoration: none; }

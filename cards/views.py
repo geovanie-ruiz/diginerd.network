@@ -219,6 +219,20 @@ def card_autocomplete(request, **kwargs):
     return JsonResponse(cards[:AUTOCOMPLETE_LIMIT], safe=False)
 
 
+def card_mention(request, **kwargs):
+    term = request.POST.get('term')
+    if term:
+        cards = []
+        for card_obj in Card.objects.filter(name__icontains=term).order_by('name').distinct('name')[:AUTOCOMPLETE_LIMIT]:
+            card = {
+                'name': f'{card_obj.number} - {card_obj.name}',
+                'number': card_obj.number,
+            }
+            cards.append(card)
+        return JsonResponse(cards[:AUTOCOMPLETE_LIMIT], safe=False)
+    return JsonResponse({})
+
+
 def card_search(request):
     return redirect('filtered_list', request.POST.get('term'))
 
