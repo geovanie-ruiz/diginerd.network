@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block head %}
+<script type="text/javascript">
+    window.CSRF_TOKEN = "{{ csrf_token }}";
+</script>
+{% endblock %}
 {% block title %}Diginerd - {{ flatpage.title }}{% endblock %}
 {% block content %}
 
@@ -13,8 +18,7 @@
             <div class="row mx-auto">
                 <div class="col col-12">
                     <div class="card article shadow-lg">
-                        <img src="https://placehold.it/1140x768/163a63"
-                            class="card-img img-responsive hero-img" />
+                        <img src="https://placehold.it/1140x768/163a63" class="card-img img-responsive hero-img" />
                         <div class="card-img-overlay">
                             <div class="article-title bg-primary">
                                 <h1 class="article-title-heading text-white text-right px-2 pb-1">
@@ -25,8 +29,45 @@
                                 </h3>
                             </div>
                         </div>
-                        <div class="card-body-thin">
+                        <div class="card-body-thin text-left">
                             {{ flatpage.content }}
+
+                            <form role="form" class="form-contact" method="post" action="{% url 'contact_us' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col form-label-group py-1">
+                                        <input class="form-control" id="name" maxlength="256" name="name" type="text"
+                                            placeholder="Your Name" required autofocus />
+                                    </div>
+
+                                    <div class="col form-label-group py-1">
+                                        <input class="form-control" id="email" maxlength="254" name="email" type="text"
+                                            placeholder="Email Address" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-label-group py-1">
+                                    <input class="form-control" id="subject" maxlength="78" name="subject" type="text"
+                                        placeholder="Subject" required />
+                                </div>
+
+                                <div class="form-label-group py-1">
+                                    <textarea class="form-control" id="summernote" rows="5" minlength="10"
+                                        name="editordata" required></textarea>
+                                </div>
+
+                                <div class="row mx-auto py-1">
+                                    <div class="col py-1">
+                                        <script src='https://www.google.com/recaptcha/api.js'></script>
+                                        <div class="g-recaptcha"
+                                            data-sitekey="6LfTydsZAAAAAI_Z9kd9rHyX4GpcHZPrfb-gfqlG">
+                                        </div>
+                                    </div>
+                                    <div class="col py-1 text-right">
+                                        <button class="btn btn-primary" id="submitComment" type="submit" value="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

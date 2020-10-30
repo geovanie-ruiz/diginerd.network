@@ -1,7 +1,9 @@
 from time import time
 
+import requests
 import timeago
 from cards.models import Card
+from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, F, Max
 from django.http import HttpResponseRedirect, JsonResponse
@@ -12,7 +14,8 @@ from django.utils import timezone
 from django.utils.html import strip_tags
 from django.views.generic import DetailView, ListView, TemplateView
 
-from network.models import Article, ArticleType, Comment, Series, Status
+from network.models import (Article, ArticleType, Comment, ContactRequest,
+                            Series, Status)
 
 PAGE_LENGTH = 5
 COMMENT_THROTTLE_SECONDS = 10
@@ -79,6 +82,40 @@ def store_comment(request):
             c.save()
 
         return HttpResponseRedirect('{}#commentSection'.format(url))
+
+
+def send_message(request):
+    if request.method == 'POST':
+        # Begin reCAPTCHA validation #
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        data = {
+            'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+            'response': recaptcha_response
+        }
+        ask_google = requests.post(url, data=data)
+        result = ask_google.json()
+        # End reCAPTCHA validation #
+
+        if result['success']:
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            subject = request.POST.get('subject')
+            message = request.POST.get('editordata')
+
+            cr = ContactRequest(
+                name=name,
+                contact=email,
+                subject=subject,
+                message=message
+            )
+            cr.save()
+
+            context = {'title': 'Success',
+                       'message': 'Communication sent successfully!'}
+            return render(request, 'flatpages/contact_success.html', context)
+
+    return HttpResponseRedirect(reverse('index'))
 
 
 def lazy_load_articles(request):
@@ -219,34 +256,6 @@ class ArticleDetailView(DetailView):
             }
         )
         return context
-
-
-class ContactView(TemplateView):
-    template_name = 'contact.html'
-
-
-class PrivacyView(TemplateView):
-    template_name = 'privacy.html'
-
-
-class TermsView(TemplateView):
-    template_name = 'terms.html'
-
-
-class RoadmapView(TemplateView):
-    template_name = 'roadmap.html'
-
-
-class GameplayView(TemplateView):
-    template_name = 'gameplay.html'
-
-
-class RulesView(TemplateView):
-    template_name = 'rules.html'
-
-
-class ColorsView(TemplateView):
-    template_name = 'colors.html'
 
 
 class DecksListView(ListView):

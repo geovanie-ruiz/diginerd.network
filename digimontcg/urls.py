@@ -30,6 +30,7 @@ urlpatterns = [
     path('new-comment/', NetworkViews.store_comment, name='new_comment'),
     path('autocomplete/', CardViews.card_autocomplete , name='autocomplete'),
     path('card-mention/', CardViews.card_mention, name='card_mention'),
+    path('contact-us/', NetworkViews.send_message, name='contact_us'),
 
     # Root paths
     path('cards/', include('cards.urls')),
@@ -43,6 +44,7 @@ urlpatterns = [
     path('rules/', views.flatpage, {'url': '/rules/'}, name='rules'),
     path('colors/', views.flatpage, {'url': '/colors/'}, name='colors'),
     path('contact/', views.flatpage, {'url': '/contact/'}, name='contact'),
+    path('contact/success/', views.flatpage, {'url': '/contact/success/'}, name='success'),
     path('privacy/', views.flatpage, {'url': '/privacy/'}, name='privacy'),
     path('terms/', views.flatpage, {'url': '/terms/'}, name='terms'),
     path('roadmap/', views.flatpage, {'url': '/roadmap/'}, name='roadmap'),

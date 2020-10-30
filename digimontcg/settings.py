@@ -173,7 +173,7 @@ sentry_sdk.init(
 # Twilio SendGrid
 # https://www.twilio.com/blog/using-twilio-sendgrid-send-emails-python-django
 
-DEFAULT_FROM_EMAIL = 'geovanie.ruiz@gmail.com'
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

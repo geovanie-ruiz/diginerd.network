@@ -95,3 +95,18 @@ class Shop(models.Model):
 
     def __str__(self):
         return f'{self.name}, ({self.city}, {self.state})'
+
+class ContactRequest(models.Model):
+    name = models.CharField(max_length=256)
+    contact = models.CharField(max_length=254)
+    subject = models.CharField(max_length=78)
+    message = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    replied = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def reply(self):
+        self.replied = True
+        self.save()

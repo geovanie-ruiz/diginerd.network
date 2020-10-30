@@ -13,6 +13,11 @@
           );
         }
       };
+      var recaptcha = $("#g-recaptcha-response").val();
+      if (recaptcha === "") {
+        e.preventDefault();
+        $( ".g-recaptcha" ).effect( "shake" );
+      };
     };
   })(), true);
 

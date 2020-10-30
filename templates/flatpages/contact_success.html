@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Diginerd - {{ title|default:"Uh oh!" }}{% endblock %}
+{% block content %}
+
+<section class="page-section">
+    <div class="container">
+        <div class="text-center">
+            <div class="row mx-auto">
+                <div class="col col-12">
+                    <div class="card shadow-lg">
+                        {{ message|default:"Something went wrong. You shouldn't be here. Who are you!?" }}
+
+                        <a href="/">Return to Site</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

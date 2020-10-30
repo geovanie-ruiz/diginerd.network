@@ -1,8 +1,6 @@
-.env.prod
-.env.prod.db
+.env*
 data.json
 fixture.json
-TO-DO
 */__pycache__
 */*/__pycache__
 media/
