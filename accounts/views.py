@@ -1,3 +1,4 @@
+import requests
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
@@ -41,6 +42,26 @@ class RegisterView(CreateView):
         if self.request.user.is_authenticated:
             return redirect(settings.LOGIN_REDIRECT_URL)
         return super().dispatch(*args, **kwargs)
+
+    def post(self, form):
+        request_body = self.request.POST
+        if not request_body:
+            return None
+
+        # Begin reCAPTCHA validation #
+        recaptcha_response = self.request.POST.get('g-recaptcha-response')
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        data = {
+            'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+            'response': recaptcha_response
+        }
+        ask_google = requests.post(url, data=data)
+        result = ask_google.json()
+        # End reCAPTCHA validation #
+
+        if not result['success']:
+            return redirect('login')
+        return super().post(form)
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):

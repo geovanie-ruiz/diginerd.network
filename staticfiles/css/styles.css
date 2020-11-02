@@ -3362,6 +3362,11 @@ input[type="button"].btn-block {
   max-height: 25rem; 
   overflow-y: auto; }
 
+.card-body-tall {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem; }
+
 .comment-text {
   -webkit-mask-image: linear-gradient(to bottom, black 21rem, transparent 24.5rem);
   mask-image: linear-gradient(to bottom, black 21rem, transparent 24.5rem); }
