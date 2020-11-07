@@ -1,59 +1,28 @@
-version: '3'
+version: '3.7'
     
 services:
-  db:
-    image: postgres
-    volumes: 
-      - postgres_data:/data/
-    env_file:
-      - .env.prod.db
   web:
     build: 
       context: .
       dockerfile: Dockerfile.prod
-    entrypoint: /entrypoint.sh
     command: gunicorn --bind 0.0.0.0:8000 digimontcg.wsgi:application
     volumes:
-      - static_volume:/code/staticfiles
-      - media_volume:/code/mediafiles
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
     expose:
       - 8000
     env_file: 
       - .env.prod
-    depends_on:
-      - db
-  nginx-proxy:
-    container_name: nginx-proxy
+  nginx:
     build: ./nginx
-    restart: always
     volumes:
-      - static_volume:/code/staticfiles
-      - media_volume:/code/mediafiles
-      - certs:/etc/nginx/certs
-      - html:/usr/share/nginx/html
-      - vhost:/etc/nginx/vhost.d
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
     ports:
-      - 443:443
-      - 80:80
+      - 1337:80
     depends_on:
       - web
-  nginx-proxy-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    env_file:
-      - .env.prod.proxy-companion
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/etc/nginx/certs
-      - html:/usr/share/nginx/html
-      - vhost:/etc/nginx/vhost.d
-    depends_on:
-      - nginx-proxy
 
 volumes:
-  postgres_data:
   static_volume:
   media_volume:
-  certs:
-  html:
-  vhost:
