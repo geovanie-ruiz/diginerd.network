@@ -50,7 +50,9 @@
                                 </div>
                             </div>
                         </div>
+                        {% if big_article %}
                         <a href="{% url 'article' big_article.slug %}" class="stretched-link"></a>
+                        {% endif %}
                     </div>
                 </div>
                 <hr class="clearfix w-100 d-lg-none">
@@ -82,7 +84,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% if article %}
                                 <a href="{% url 'article' article.slug %}" class="stretched-link"></a>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}
@@ -103,7 +107,9 @@
                     <div class="card-header bg-secondary">Card of the Day</div>
                     <img src="{{ MEDIA_PREFIX}}{{ cotd.art.all.first.card_art }}" class="card-img-bottom img-responsive"
                         alt="Card of the Day: Digimon" />
+                    {% if cotd %}
                     <a href="{% url 'card_view' cotd.number %}" class="stretched-link"></a>
+                    {% endif %}
                 </div>
             </div>
             <hr class="clearfix w-100 d-lg-none pb-3">

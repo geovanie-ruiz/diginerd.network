@@ -1,0 +1,145 @@
+[
+    {
+        "model": "sites.site",
+        "pk": 1,
+        "fields": {
+            "domain": "diginerd.net",
+            "name": "DigiNerd.net"
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 1,
+        "fields": {
+            "url": "/gameplay/",
+            "title": "Gameplay",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/gameplay.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 2,
+        "fields": {
+            "url": "/rules/",
+            "title": "Rules",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/rules.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 3,
+        "fields": {
+            "url": "/colors/",
+            "title": "Colors",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/colors.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 4,
+        "fields": {
+            "url": "/contact/",
+            "title": "Contact",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/contact.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 5,
+        "fields": {
+            "url": "/contact/success/",
+            "title": "Contact Success",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/contact_success.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 6,
+        "fields": {
+            "url": "/privacy/",
+            "title": "Privacy Policy",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/privacy.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 7,
+        "fields": {
+            "url": "/terms/",
+            "title": "Terms of Service",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/terms.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 8,
+        "fields": {
+            "url": "/roadmap/",
+            "title": "Roadmap",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/roadmap.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "flatpages.flatpage",
+        "pk": 9,
+        "fields": {
+            "url": "/api/",
+            "title": "API",
+            "content": "",
+            "enable_comments": false,
+            "template_name": "flatpages/api.html",
+            "registration_required": false,
+            "sites": [
+                1
+            ]
+        }
+    }
+]

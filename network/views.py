@@ -199,10 +199,10 @@ class IndexView(TemplateView):
         context = super(IndexView, self).get_context_data(**kwargs)
         context.update(
             {
-                'big_article': latest_three_articles[0],
-                'small_articles': latest_three_articles[1:],
-                'cotd': cotd.get(),
-                'discussions': latest_five_discussions
+                'big_article': latest_three_articles[0] if latest_three_articles else None,
+                'small_articles': latest_three_articles[1:] if latest_three_articles else None,
+                'cotd': cotd.get() if cotd else None,
+                'discussions': latest_five_discussions if latest_five_discussions else None
             }
         )
         return context
